@@ -4,6 +4,9 @@ require 'korundum4'
 require 'kitten/git_history_model'
 require 'kitten/ui_main_window'
 
+require 'rubygems'
+require 'git'
+
 module Kitten
   class MainWindow < KDE::MainWindow
       slots 'on_action_Open_triggered()'

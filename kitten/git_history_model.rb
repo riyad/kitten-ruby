@@ -1,9 +1,5 @@
 
-
 require 'Qt4'
-
-require 'rubygems'
-require 'git'
 
 module Kitten
   class GitHistoryModel < Qt::AbstractTableModel
