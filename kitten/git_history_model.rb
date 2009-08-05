@@ -10,7 +10,7 @@ module Kitten
     def initialize(repository, parent = nil)
       super(parent)
       @repository = repository
-      loadCommits()
+      setBranch(@repository.current_branch)
     end
 
     def columnCount(parent = nil)
@@ -46,13 +46,23 @@ module Kitten
     end
 
     def loadCommits()
-      @commits = []
-      @log = @repository.log
+      @log = @repository.log().object(@branch)
       @log.each { |commit| @commits << commit }
+    end
+
+    def reset()
+      @commits = []
+      loadCommits()
+      super
     end
 
     def rowCount(parent = nil)
       @log.size
+    end
+
+    def setBranch(branch)
+      @branch = branch
+      reset()
     end
   end
 end
