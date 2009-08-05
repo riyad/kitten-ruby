@@ -1,14 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'korundum4'
-
-module Kitten
-  class MainWindow < KDE::MainWindow
-      def initialize(*args)
-        super
-      end
-  end
-end
+require 'kitten/main_window'
 
 description = "A GUI for Git."
 version     = "0.1"
