@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'Korundum'
+require 'korundum4'
 
 module Kitten
   class MainWindow < KDE::MainWindow
@@ -12,11 +12,11 @@ end
 
 description = "A GUI for Git."
 version     = "0.1"
-aboutData   = KDE::AboutData.new("Kitten", "",
-    version, description, KDE::AboutData::License_GPL_V3,
-    "(C) 2009 Riyad Preukschas")
+aboutData   = KDE::AboutData.new("kitten", "", KDE.ki18n("Kitten"),
+    version, KDE.ki18n(description),
+    KDE::AboutData::License_GPL, KDE.ki18n("(C) 2009 Riyad Preukschas"))
 
-aboutData.addAuthor("Riyad Preukschas", "Author", "riyad@informatik.uni-bremen.de")
+aboutData.addAuthor(KDE.ki18n("Riyad Preukschas"), KDE.ki18n("Author"), "riyad@informatik.uni-bremen.de")
 
 KDE::CmdLineArgs.init(ARGV, aboutData)
 
