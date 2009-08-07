@@ -16,9 +16,9 @@ module Kitten
       def initialize(*args)
         super
         @ui = Ui_MainWindow.new
-        @ui.setupUi(self)
+        @ui.setup_ui(self)
 
-        @ui.action_Quit.connect(SIGNAL :triggered) { $app.quit }
+        @ui.action_Quit.connect(SIGNAL :triggered) { $kapp.quit }
       end
 
       def loadModels()
@@ -27,18 +27,18 @@ module Kitten
 
         @ui.historyTableView.model = @history_model
         @ui.historyBranchComboBox.model = @branches_model
-        currentBranchIndex = @ui.historyBranchComboBox.findText(@repository.current_branch)
-        @ui.historyBranchComboBox.currentIndex = currentBranchIndex
+        current_branch_index = @ui.historyBranchComboBox.find_text(@repository.current_branch)
+        @ui.historyBranchComboBox.current_index = current_branch_index
       end
 
       def on_action_Open_triggered()
-        path = Qt::FileDialog.getExistingDirectory(self, "Select Git repository location")
+        path = Qt::FileDialog.get_existing_directory(self, "Select Git repository location")
         @repository = Git.open(path)
-        loadModels()
+        load_models
       end
 
-      def on_historyBranchComboBox_currentIndexChanged(currentBranch)
-        @history_model.setBranch(currentBranch)
+      def on_historyBranchComboBox_currentIndexChanged(current_branch)
+        @history_model.branch = current_branch
       end
   end
 end

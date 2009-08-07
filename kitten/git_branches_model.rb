@@ -10,7 +10,7 @@ module Kitten
     def initialize(repository, parent = nil)
       super(parent)
       @repository = repository
-      loadBranches()
+      load_branches
     end
 
     def columnCount(parent = nil)
@@ -27,15 +27,15 @@ module Kitten
       end
 
       data = @branches[index.row].send ColumnMethod[Columns[index.column()]]
-      return Qt::Variant.new(data)
+      return Qt::Variant.new data
     end
 
     def headerData(section, orientation = Qt::Horizontal, role = Qt::DisplayRole)
-      if section > columnCount() || orientation != Qt::Horizontal || role != Qt::DisplayRole
+      if section > column_count || orientation != Qt::Horizontal || role != Qt::DisplayRole
         return Qt::Variant.new
       end
 
-      return Qt::Variant.new(columnName(section))
+      return Qt::Variant.new column_name(section)
     end
 
     def loadBranches()
@@ -44,7 +44,7 @@ module Kitten
 
     def reset()
       @commits = []
-      loadBranches()
+      load_branches
       super
     end
 
