@@ -17,6 +17,8 @@ module Kitten
         super
         @ui = Ui_MainWindow.new
         @ui.setupUi(self)
+
+        @ui.action_Quit.connect(SIGNAL :triggered) { $app.quit }
       end
 
       def loadModels()

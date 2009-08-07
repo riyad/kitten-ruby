@@ -12,9 +12,9 @@ aboutData.addAuthor(KDE.ki18n("Riyad Preukschas"), KDE.ki18n("Author"), "riyad@i
 
 KDE::CmdLineArgs.init(ARGV, aboutData)
 
-app = KDE::Application.new()
+$app = KDE::Application.new()
 
 kitten = Kitten::MainWindow.new()
 kitten.show()
 
-app.exec()
+$app.exec()
