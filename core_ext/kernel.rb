@@ -1,9 +1,14 @@
 
-module Kernel
-  def method_missing(symbol, *args, &block)
+module KernelExtension
+  def self.included(base)
+    base.send :alias_method, :method_missing_without_camelize, :method_missing
+    base.send :alias_method, :method_missing, :method_missing_with_camelize
+  end
+
+  def method_missing_with_camelize(symbol, *args, &block)
     # First look for a method in the Smoke runtime
     # If not found, then throw an exception and try again in the ruby runtime.
-    super
+    method_missing_without_camelize(symbol, *args, &block)
   rescue
     name = symbol.id2name
 
@@ -37,4 +42,8 @@ module Kernel
       [name]
     end
   end
+end
+
+class Object
+  include KernelExtension
 end
