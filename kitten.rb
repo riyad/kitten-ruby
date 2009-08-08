@@ -1,10 +1,12 @@
 #!/usr/bin/env ruby
 
 require 'core_ext/kernel'
+require 'core_ext/module'
 
 require 'korundum4'
 
 require 'kitten/main_window'
+require 'kitten/repositories_dialog'
 
 description = "A GUI for Git."
 version     = "0.1"
@@ -17,9 +19,14 @@ about_data.addAuthor(KDE.ki18n("Riyad Preukschas"), KDE.ki18n("Author"), "riyad@
 
 KDE::CmdLineArgs.init(ARGV, about_data)
 
-app = KDE::Application.new
+KDE::Application.new
 
-kitten = Kitten::MainWindow.new
-kitten.show
+repos_dialog = Kitten::RepositoriesDialog.new
+repos_dialog.exec
 
-app.exec
+if repos_dialog.result == Qt::Dialog::Accepted
+  kitten = Kitten::MainWindow.new
+  kitten.show
+
+  $kapp.exec
+end
