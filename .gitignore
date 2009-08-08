@@ -1,2 +1,6 @@
 
+# generated documentation and reports
+doc/
+
+# generated ui sources
 ui_*.rb
