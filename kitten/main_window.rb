@@ -1,6 +1,5 @@
 
 require 'korundum4'
-
 require 'kitten/git_branches_model'
 require 'kitten/git_history_model'
 require 'kitten/ui_main_window'
@@ -33,12 +32,17 @@ module Kitten
 
       def on_action_Open_triggered()
         path = Qt::FileDialog.get_existing_directory(self, "Select Git repository location")
-        @repository = Git.open(path)
-        load_models
+        self.repository = path
       end
 
       def on_historyBranchComboBox_currentIndexChanged(current_branch)
         @history_model.branch = current_branch
+      end
+
+      def setRepository(repo_or_path)
+        repo_or_path = Git.open(repo_or_path) unless repo_or_path.is_a? Git::Base
+        @repository = repo_or_path
+        load_models
       end
   end
 end
