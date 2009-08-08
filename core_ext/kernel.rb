@@ -1,6 +1,4 @@
 
-#require 'core_ext/string'
-
 module Kernel
   def method_missing(symbol, *args, &block)
     # First look for a method in the Smoke runtime
@@ -11,7 +9,7 @@ module Kernel
 
     possible_names = camelize_method_name(name)
 
-    [possible_names].flatten.each do |name|
+    possible_names.each do |name|
       if respond_to?(name, true)
         return send(name.to_sym, *args, &block)
       end
@@ -36,7 +34,7 @@ module Kernel
       name = $1.upcase + $2
       ["is#{name}", "has#{name}"]
     else
-      name
+      [name]
     end
   end
 end
