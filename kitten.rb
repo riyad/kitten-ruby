@@ -2,6 +2,8 @@
 
 require 'core_ext/kernel'
 
+require 'korundum4'
+
 require 'kitten/main_window'
 
 description = "A GUI for Git."

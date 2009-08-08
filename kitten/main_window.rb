@@ -1,10 +1,8 @@
 
-require 'korundum4'
 require 'kitten/git_branches_model'
 require 'kitten/git_history_model'
 require 'kitten/ui_main_window'
 
-require 'rubygems'
 require 'git'
 
 module Kitten
