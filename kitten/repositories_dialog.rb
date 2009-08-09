@@ -7,6 +7,12 @@ require 'git'
 module Kitten
   class RepositoriesDialog < Qt::Dialog
 
+      def accept()
+        # TODO: save list of repos
+        # TODO: remember opened repo
+        super
+      end
+
       def initialize(*args)
         super
         @ui = Ui::RepositoriesDialog.new
@@ -15,6 +21,8 @@ module Kitten
         @ui.repositorySearchLine.list_widget = @ui.repositoriesListWidget
 
         create_actions
+
+        load_repositories
       end
 
       def createActions()
@@ -29,6 +37,11 @@ module Kitten
           @ui.quitButton.icon = KDE::Icon.new('application-exit')
           @ui.quitButton.text = "Exit"
         end
+      end
+
+      def loadRepositories()
+        # TODO: load list of repos
+        # TODO: select last opened repo
       end
 
       def selectedRepositoryPath()
