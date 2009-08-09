@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>555</width>
-    <height>311</height>
+    <width>694</width>
+    <height>398</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -138,12 +138,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>516</x>
-     <y>266</y>
+     <x>680</x>
+     <y>377</y>
     </hint>
     <hint type="destinationlabel">
-     <x>490</x>
-     <y>185</y>
+     <x>657</x>
+     <y>319</y>
     </hint>
    </hints>
   </connection>
@@ -154,12 +154,28 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>312</x>
-     <y>264</y>
+     <x>339</x>
+     <y>384</y>
     </hint>
     <hint type="destinationlabel">
-     <x>166</x>
-     <y>254</y>
+     <x>269</x>
+     <y>378</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>repositoriesListWidget</sender>
+   <signal>executed(QListWidgetItem*)</signal>
+   <receiver>RepositoriesDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>388</x>
+     <y>257</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>552</x>
+     <y>237</y>
     </hint>
    </hints>
   </connection>
