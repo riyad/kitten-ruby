@@ -26,6 +26,7 @@ repos_dialog.exec
 
 if repos_dialog.result == Qt::Dialog::Accepted
   kitten = Kitten::MainWindow.new
+  kitten.repository = repos_dialog.selected_repository_path
   kitten.show
 
   $kapp.exec
