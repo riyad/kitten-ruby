@@ -6,7 +6,8 @@ require 'git'
 
 module Kitten
   class RepositoriesDialog < Qt::Dialog
-      slots 'on_addButton_clicked()'
+      slots 'on_addButton_clicked()',
+            'on_removeButton_clicked()'
 
       def accept()
         save_repositories
@@ -75,6 +76,14 @@ module Kitten
         end
       end
 
+      def on_removeButton_clicked()
+        repo_list = @ui.repositoriesListWidget
+
+        row = repo_list.current_row
+        repo_list.take_item row
+        select_repository row-1
+      end
+
       def reject()
         save_repositories
 
@@ -100,7 +109,7 @@ module Kitten
       end
 
       def selectedRepositoryPath()
-        @ui.repositoriesListWidget.current_item.text
+        @ui.repositoriesListWidget.current_item.text if @ui.repositoriesListWidget.current_item
       end
 
       private
