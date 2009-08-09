@@ -39,8 +39,12 @@ module Kitten
       end
 
       def on_action_Open_triggered()
-        path = Qt::FileDialog.get_existing_directory(self, "Select Git repository location")
-        self.repository = path
+        repos_dialog = RepositoriesDialog.new(self)
+        repos_dialog.exec
+        if repos_dialog.result == Qt::Dialog::Accepted
+          path = repos_dialog.selected_repository_path
+          self.repository = path
+        end
       end
 
       def on_historyBranchComboBox_currentIndexChanged(current_branch)
