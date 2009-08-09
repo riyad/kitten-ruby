@@ -48,23 +48,47 @@ module Kitten
 
       def on_addButton_clicked()
         path = Qt::FileDialog.get_existing_directory(self, i18n("Select Git repository location"))
-        if File.directory? File.join(path, '.git')
-          found_items = @ui.repositoriesListWidget.find_items(path, Qt::MatchExactly)
 
-          if found_items.empty?
-            item = Qt::ListWidgetItem.new(KDE::Icon.new('repository'), path, @ui.repositoriesListWidget)
-            @ui.repositoriesListWidget.add_item item
-            @ui.repositoriesListWidget.current_row = @ui.repositoriesListWidget.count - 1
+        # make sure the user has not cancelled the file dialog
+        if path
+          # make sure the directors it is a Git repo
+          if File.directory? File.join(path, '.git')
+            add_repository path
           else
-            @ui.repositoriesListWidget.current_row = @ui.repositoriesListWidget.row(found_items[0])
+            KDE::MessageBox::sorry self, i18n("The selected directory does not contain a Git repository.")
           end
-        else
-          KDE::MessageBox::sorry(self, i18n("The selected directory does not contain a Git repository."))
         end
       end
 
       def selectedRepositoryPath()
         @ui.repositoriesListWidget.current_item.text
+      end
+
+      private
+
+      def addRepository(path)
+        repo_list = @ui.repositoriesListWidget
+
+        found_items = repo_list.find_items(path, Qt::MatchExactly)
+
+        if found_items.empty?
+          item = Qt::ListWidgetItem.new KDE::Icon.new('repository'), path, repo_list
+          repo_list.add_item item
+        end
+
+        select_repository path
+      end
+
+      def selectRepository(item_or_path_or_row)
+        repo_list = @ui.repositoriesListWidget
+        if item_or_path_or_row.is_a? Qt::ListWidgetItem
+          repo_list.current_item = item_or_path_or_row
+        elsif item_or_path_or_row.is_a? Integer
+          repo_list.current_row = 0
+        else
+          found_items = repo_list.find_items(item_or_path_or_row.to_s, Qt::MatchExactly)
+          repo_list.current_row = repo_list.row found_items[0] unless found_items.empty?
+        end
       end
   end
 end
