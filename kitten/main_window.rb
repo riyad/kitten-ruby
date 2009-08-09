@@ -19,12 +19,12 @@ module Kitten
       end
 
       def loadModels()
-        @history_model = GitHistoryModel.new(@repository, self)
-        @branches_model = GitBranchesModel.new(@repository, self)
+        @history_model = GitHistoryModel.new(repository, self)
+        @branches_model = GitBranchesModel.new(repository, self)
 
         @ui.historyTableView.model = @history_model
         @ui.historyBranchComboBox.model = @branches_model
-        current_branch_index = @ui.historyBranchComboBox.find_text(@repository.current_branch)
+        current_branch_index = @ui.historyBranchComboBox.find_text(repository.current_branch)
         @ui.historyBranchComboBox.current_index = current_branch_index
       end
 
@@ -37,6 +37,7 @@ module Kitten
         @history_model.branch = current_branch
       end
 
+      attr_accessor :repository
       def setRepository(repo_or_path)
         repo_or_path = Git.open(repo_or_path) unless repo_or_path.is_a? Git::Base
         @repository = repo_or_path
