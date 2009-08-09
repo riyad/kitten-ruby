@@ -6,7 +6,8 @@ require 'git'
 
 module Kitten
   class RepositoriesDialog < Qt::Dialog
-      slots 'on_addButton_clicked()',
+      slots 'on_repositoriesListWidget_currentTextChanged(const QString&)',
+            'on_addButton_clicked()',
             'on_removeButton_clicked()'
 
       def accept()
@@ -60,6 +61,11 @@ module Kitten
         else
           select_repository 0
         end
+      end
+
+      def on_repositoriesListWidget_currentTextChanged(text)
+        @ui.removeButton.enabled = text
+        @ui.openButton.enabled = text
       end
 
       def on_addButton_clicked()
