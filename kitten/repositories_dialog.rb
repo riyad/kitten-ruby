@@ -13,6 +13,12 @@ module Kitten
         @ui.setup_ui(self)
 
         @ui.repositorySearchLine.list_widget = @ui.repositoriesListWidget
+
+        create_actions
+      end
+
+      def createActions()
+        @ui.quitButton.icon = KDE::Icon.new('application-exit')
       end
 
       def selectedRepositoryPath()
