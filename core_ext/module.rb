@@ -61,10 +61,10 @@ module ModuleExtension
       method_name = "#{attr_name}="
       camelized_method_name = camelize_method_name(method_name)[0] # setters should be unambiguous
 
-      # overwrites the already generated method with a customized one
+      # generates the method with customized behaviour
       # if there is a setFoo method it will be called otherwise standard behaviour is ensured
       module_eval <<-END
-        def #{method_name}(val)
+        def #{method_name}(val = nil)
           if respond_to? :#{camelized_method_name}
             #{camelized_method_name}(val)
           else
