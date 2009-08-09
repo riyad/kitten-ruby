@@ -1,6 +1,8 @@
 
 require 'core_ext/kernel'
 
+require 'Qt4'
+
 module ModuleExtension
   def self.included(base)
     # attr_accessor
@@ -24,6 +26,8 @@ module ModuleExtension
   end
 
   def attr_reader_with_camelize(*symbols)
+    return attr_reader_without_camelize(*symbols) unless ancestors.include? Qt::Object
+
     # generates the attribute writers
     symbols.each do |sym|
       attr_name = sym.id2name
@@ -55,6 +59,8 @@ module ModuleExtension
   end
 
   def attr_writer_with_camelize(*symbols)
+    return attr_writer_without_camelize(*symbols) unless ancestors.include? Qt::Object
+
     # generates the attribute writers
     symbols.each do |sym|
       attr_name = sym.id2name
