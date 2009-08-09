@@ -6,6 +6,7 @@ require 'git'
 
 module Kitten
   class RepositoriesDialog < Qt::Dialog
+      slots 'on_addButton_clicked()'
 
       def accept()
         # TODO: save list of repos
@@ -41,7 +42,13 @@ module Kitten
 
       def loadRepositories()
         # TODO: load list of repos
+        # TODO: check whether repo dirs still contain repos
         # TODO: select last opened repo
+      end
+
+      def on_addButton_clicked()
+        path = Qt::FileDialog.get_existing_directory(self, "Select Git repository location")
+        # TODO: check whether path is a git repo
       end
 
       def selectedRepositoryPath()
