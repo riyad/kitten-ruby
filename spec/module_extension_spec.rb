@@ -48,6 +48,14 @@ describe Module, "attribute" do
       a.foo_bar_baz.should == "boo"
     end
 
+    it "should have no parameters" do
+      class FooBarBazReaderParamsTest
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderParamsTest.new
+      lambda{ a.foo_bar_baz("boo") }.should raise_error(ArgumentError, /wrong number of arguments \(\d for 0\)/)
+    end
+
     it "should generate reader methods respecting general camelcased equivalent" do
       class FooBarBazReaderAlteredGeneralResponseTest
         attr_reader :foo_bar_baz
@@ -105,6 +113,17 @@ describe Module, "attribute" do
 
       a.foo_bar_baz = "boo"
       a.instance_variable_get('@foo_bar_baz').should == "boo"
+    end
+
+    it "should have one parameter" do
+      class FooBarBazWriterParamsTest
+        attr_writer :foo_bar_baz
+      end
+      a = FooBarBazWriterParamsTest.new
+      a.instance_variable_set('@foo_bar_baz', "boo")
+      a.foo_bar_baz=()
+
+      a.instance_variable_get('@foo_bar_baz').should be_nil
     end
 
     it "should generate writer methods respecting camelcased equivalents" do
