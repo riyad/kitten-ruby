@@ -38,8 +38,19 @@ describe Module, "attribute" do
       a.should respond_to(:foo_bar_baz)
     end
 
+    it "should leave alone non-Qt classes" do
+      class FooBarBazReaderInheritanceTest
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderInheritanceTest.new
+
+      a.should_not_receive(:fooBarBaz)
+
+      a.foo_bar_baz
+    end
+
     it "should fall back correctly" do
-      class FooBarBazReaderFallBackTest
+      class FooBarBazReaderFallBackTest < Qt::Object
         attr_reader :foo_bar_baz
       end
       a = FooBarBazReaderFallBackTest.new
@@ -49,7 +60,7 @@ describe Module, "attribute" do
     end
 
     it "should have no parameters" do
-      class FooBarBazReaderParamsTest
+      class FooBarBazReaderParamsTest < Qt::Object
         attr_reader :foo_bar_baz
       end
       a = FooBarBazReaderParamsTest.new
@@ -57,7 +68,7 @@ describe Module, "attribute" do
     end
 
     it "should generate reader methods respecting general camelcased equivalent" do
-      class FooBarBazReaderAlteredGeneralResponseTest
+      class FooBarBazReaderAlteredGeneralResponseTest < Qt::Object
         attr_reader :foo_bar_baz
       end
       a = FooBarBazReaderAlteredGeneralResponseTest.new
@@ -68,7 +79,7 @@ describe Module, "attribute" do
     end
 
     it "should generate reader methods respecting is* camelcased equivalent" do
-      class FooBarBazReaderAlteredIsBoolResponseTest
+      class FooBarBazReaderAlteredIsBoolResponseTest < Qt::Object
         attr_reader :foo_bar_baz
       end
       a = FooBarBazReaderAlteredIsBoolResponseTest.new
@@ -79,7 +90,7 @@ describe Module, "attribute" do
     end
 
     it "should generate reader methods respecting has* camelcased equivalent" do
-      class FooBarBazReaderAlteredHAsBoolResponseTest
+      class FooBarBazReaderAlteredHAsBoolResponseTest < Qt::Object
         attr_reader :foo_bar_baz
       end
       a = FooBarBazReaderAlteredHAsBoolResponseTest.new
@@ -90,7 +101,7 @@ describe Module, "attribute" do
     end
 
     it "should preserve the return value" do
-      class FooBarBazReaderResponseValueTest
+      class FooBarBazReaderResponseValueTest < Qt::Object
         attr_reader :foo_bar_baz
       end
       a = FooBarBazReaderResponseValueTest.new
@@ -116,8 +127,19 @@ describe Module, "attribute" do
       a.should respond_to(:foo_bar_baz=)
     end
 
+    it "should leave alone non-Qt classes" do
+      class FooBarBazWriterInheritanceTest
+        attr_writer :foo_bar_baz
+      end
+      a = FooBarBazWriterInheritanceTest.new
+
+      a.should_not_receive(:setFooBarBaz)
+
+      a.foo_bar_baz = "boo"
+    end
+
     it "should fall back correctly" do
-      class FooBarBazWriterFallBackTest
+      class FooBarBazWriterFallBackTest < Qt::Object
         attr_writer :foo_bar_baz
       end
       a = FooBarBazWriterFallBackTest.new
@@ -127,7 +149,7 @@ describe Module, "attribute" do
     end
 
     it "should have one parameter" do
-      class FooBarBazWriterParamsTest
+      class FooBarBazWriterParamsTest < Qt::Object
         attr_writer :foo_bar_baz
       end
       a = FooBarBazWriterParamsTest.new
@@ -138,7 +160,7 @@ describe Module, "attribute" do
     end
 
     it "should generate writer methods respecting camelcased equivalents" do
-      class FooBarBazWriterAlteredResponseTest
+      class FooBarBazWriterAlteredResponseTest < Qt::Object
         attr_writer :foo_bar_baz
       end
       a = FooBarBazWriterAlteredResponseTest.new
@@ -149,7 +171,7 @@ describe Module, "attribute" do
     end
 
     it "should preserve the return value" do
-      class FooBarBazWriterResponseValueTest
+      class FooBarBazWriterResponseValueTest < Qt::Object
         attr_writer :foo_bar_baz
       end
       a = FooBarBazWriterResponseValueTest.new
