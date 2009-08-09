@@ -30,10 +30,10 @@ describe Module, "attribute" do
     end
 
     it "should generate reader methods" do
-      class FooBarBazGetterResponseTest
+      class FooBarBazReaderResponseTest
         attr_reader :foo_bar_baz
       end
-      a = FooBarBazGetterResponseTest.new
+      a = FooBarBazReaderResponseTest.new
 
       a.should respond_to(:foo_bar_baz)
     end
@@ -62,9 +62,9 @@ describe Module, "attribute" do
       end
       a = FooBarBazReaderAlteredGeneralResponseTest.new
 
-      a.should_receive(:fooBarBaz).and_return("boo")
+      a.should_receive(:fooBarBaz)
 
-      a.foo_bar_baz.should == "boo"
+      a.foo_bar_baz
     end
 
     it "should generate reader methods respecting is* camelcased equivalent" do
@@ -85,6 +85,17 @@ describe Module, "attribute" do
       a = FooBarBazReaderAlteredHAsBoolResponseTest.new
 
       a.should_receive(:hasFooBarBaz).and_return("boo")
+
+      a.foo_bar_baz.should == "boo"
+    end
+
+    it "should preserve the return value" do
+      class FooBarBazReaderResponseValueTest
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderResponseValueTest.new
+
+      a.should_receive(:fooBarBaz).and_return("boo")
 
       a.foo_bar_baz.should == "boo"
     end
@@ -135,6 +146,17 @@ describe Module, "attribute" do
       a.should_receive(:setFooBarBaz)
 
       a.foo_bar_baz = "boo"
+    end
+
+    it "should preserve the return value" do
+      class FooBarBazWriterResponseValueTest
+        attr_writer :foo_bar_baz
+      end
+      a = FooBarBazWriterResponseValueTest.new
+
+      a.should_receive(:setFooBarBaz).with("boo").and_return("boo")
+
+      (a.foo_bar_baz = "boo").should == "boo"
     end
   end
 end
