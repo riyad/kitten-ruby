@@ -2,6 +2,22 @@
 require 'core_ext/module'
 
 describe Module, "attribute" do
+  context "accessor extension" do
+    it "should call attr_reader" do
+      class FooAccessorReaderCallTest
+        should_receive(:attr_reader)
+        attr_accessor :foo
+      end
+    end
+
+    it "should call attr_writer" do
+      class FooAccessorWriterCallTest
+        should_receive(:attr_writer)
+        attr_accessor :foo
+      end
+    end
+  end
+
   context "writer extionsion" do
     it "should overwrite attr_writer" do
       Module.private_methods.should include('attr_writer_with_camelize')

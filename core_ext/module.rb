@@ -3,11 +3,21 @@ require 'core_ext/kernel'
 
 module ModuleExtension
   def self.included(base)
+    # attr_accessor
+    base.send :alias_method, :attr_accessor_without_camelize, :attr_accessor
+    base.send :alias_method, :attr_accessor, :attr_accessor_with_camelize
+
+    # attr_writer
     base.send :alias_method, :attr_writer_without_camelize, :attr_writer
     base.send :alias_method, :attr_writer, :attr_writer_with_camelize
   end
 
   private
+
+  def attr_accessor_with_camelize(*symbols)
+    attr_reader(*symbols)
+    attr_writer(*symbols)
+  end
 
   def attr_writer_with_camelize(*symbols)
     # generates the attribute writers
