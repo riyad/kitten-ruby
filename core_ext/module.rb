@@ -39,8 +39,6 @@ module ModuleExtension
       end
       camelized_method_names.reject! { |camelized_method_name| camelized_method_name == method_name }
 
-      p "#{method_name}: #{camelized_method_names.inspect}"
-
       # generates the method with customized behaviour only if the name differs
       # if there is a fooBarBaz/isFooBarBaz/hasFooBarBaz method it will be called
       # otherwise standard behaviour is ensured
