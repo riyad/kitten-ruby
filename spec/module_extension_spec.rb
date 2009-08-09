@@ -1,27 +1,184 @@
 
 require 'core_ext/module'
 
-describe Module, "attributes extionsion" do
-  it "should overwrite attr_writer" do
-    Module.private_methods.should include('attr_writer_with_camelize')
-    Module.private_methods.should include('attr_writer_without_camelize')
+describe Module, "attribute" do
+  context "accessor extension" do
+    it "should overwrite attr_accessor" do
+      Module.private_methods.should include('attr_accessor_with_camelize')
+      Module.private_methods.should include('attr_accessor_without_camelize')
+    end
+
+    it "should call attr_reader" do
+      class FooAccessorReaderCallTest
+        should_receive(:attr_reader)
+        attr_accessor :foo
+      end
+    end
+
+    it "should call attr_writer" do
+      class FooAccessorWriterCallTest
+        should_receive(:attr_writer)
+        attr_accessor :foo
+      end
+    end
   end
 
-  it "should generate setter methods" do
-    self.should_not respond_to('foo=')
-    class Foo
-      attr_writer :foo
+  context "reader extension" do
+    it "should overwrite attr_reader" do
+      Module.private_methods.should include('attr_reader_with_camelize')
+      Module.private_methods.should include('attr_reader_without_camelize')
     end
-    a = Foo.new
-    a.should respond_to('foo=')
+
+    it "should generate reader methods" do
+      class FooBarBazReaderResponseTest
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderResponseTest.new
+
+      a.should respond_to(:foo_bar_baz)
+    end
+
+    it "should leave alone non-Qt classes" do
+      class FooBarBazReaderInheritanceTest
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderInheritanceTest.new
+
+      a.should_not_receive(:fooBarBaz)
+
+      a.foo_bar_baz
+    end
+
+    it "should fall back correctly" do
+      class FooBarBazReaderFallBackTest < Qt::Object
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderFallBackTest.new
+
+      a.instance_variable_set('@foo_bar_baz', "boo")
+      a.foo_bar_baz.should == "boo"
+    end
+
+    it "should have no parameters" do
+      class FooBarBazReaderParamsTest < Qt::Object
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderParamsTest.new
+      lambda{ a.foo_bar_baz("boo") }.should raise_error(ArgumentError, /wrong number of arguments \(\d for 0\)/)
+    end
+
+    it "should generate reader methods respecting general camelcased equivalent" do
+      class FooBarBazReaderAlteredGeneralResponseTest < Qt::Object
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderAlteredGeneralResponseTest.new
+
+      a.should_receive(:fooBarBaz)
+
+      a.foo_bar_baz
+    end
+
+    it "should generate reader methods respecting is* camelcased equivalent" do
+      class FooBarBazReaderAlteredIsBoolResponseTest < Qt::Object
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderAlteredIsBoolResponseTest.new
+
+      a.should_receive(:isFooBarBaz).and_return("boo")
+
+      a.foo_bar_baz.should == "boo"
+    end
+
+    it "should generate reader methods respecting has* camelcased equivalent" do
+      class FooBarBazReaderAlteredHAsBoolResponseTest < Qt::Object
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderAlteredHAsBoolResponseTest.new
+
+      a.should_receive(:hasFooBarBaz).and_return("boo")
+
+      a.foo_bar_baz.should == "boo"
+    end
+
+    it "should preserve the return value" do
+      class FooBarBazReaderResponseValueTest < Qt::Object
+        attr_reader :foo_bar_baz
+      end
+      a = FooBarBazReaderResponseValueTest.new
+
+      a.should_receive(:fooBarBaz).and_return("boo")
+
+      a.foo_bar_baz.should == "boo"
+    end
   end
 
-  it "should generate setter methods respecting camelcased equivalents" do
-    self.should_not respond_to('foo=')
-    class Foo
-      attr_writer :foo
+  context "writer extension" do
+    it "should overwrite attr_writer" do
+      Module.private_methods.should include('attr_writer_with_camelize')
+      Module.private_methods.should include('attr_writer_without_camelize')
     end
-    a = Foo.new
-    a.should respond_to('foo=')
+
+    it "should generate writer methods" do
+      class FooBarBazWriterResponseTest
+        attr_writer :foo_bar_baz
+      end
+      a = FooBarBazWriterResponseTest.new
+
+      a.should respond_to(:foo_bar_baz=)
+    end
+
+    it "should leave alone non-Qt classes" do
+      class FooBarBazWriterInheritanceTest
+        attr_writer :foo_bar_baz
+      end
+      a = FooBarBazWriterInheritanceTest.new
+
+      a.should_not_receive(:setFooBarBaz)
+
+      a.foo_bar_baz = "boo"
+    end
+
+    it "should fall back correctly" do
+      class FooBarBazWriterFallBackTest < Qt::Object
+        attr_writer :foo_bar_baz
+      end
+      a = FooBarBazWriterFallBackTest.new
+
+      a.foo_bar_baz = "boo"
+      a.instance_variable_get('@foo_bar_baz').should == "boo"
+    end
+
+    it "should have one parameter" do
+      class FooBarBazWriterParamsTest < Qt::Object
+        attr_writer :foo_bar_baz
+      end
+      a = FooBarBazWriterParamsTest.new
+      a.instance_variable_set('@foo_bar_baz', "boo")
+      a.foo_bar_baz=()
+
+      a.instance_variable_get('@foo_bar_baz').should be_nil
+    end
+
+    it "should generate writer methods respecting camelcased equivalents" do
+      class FooBarBazWriterAlteredResponseTest < Qt::Object
+        attr_writer :foo_bar_baz
+      end
+      a = FooBarBazWriterAlteredResponseTest.new
+
+      a.should_receive(:setFooBarBaz)
+
+      a.foo_bar_baz = "boo"
+    end
+
+    it "should preserve the return value" do
+      class FooBarBazWriterResponseValueTest < Qt::Object
+        attr_writer :foo_bar_baz
+      end
+      a = FooBarBazWriterResponseValueTest.new
+
+      a.should_receive(:setFooBarBaz).with("boo").and_return("boo")
+
+      (a.foo_bar_baz = "boo").should == "boo"
+    end
   end
 end
