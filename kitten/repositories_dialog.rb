@@ -18,7 +18,17 @@ module Kitten
       end
 
       def createActions()
-        @ui.quitButton.icon = KDE::Icon.new('application-exit')
+        @ui.newButton.icon  = KDE::Icon.new('folder-new')
+        @ui.addButton.icon  = KDE::Icon.new('list-add')
+        @ui.removeButton.icon = KDE::Icon.new('list-remove')
+        @ui.openButton.icon = KDE::Icon.new('document-open-folder')
+        if parent
+          @ui.quitButton.icon = KDE::Icon.new('dialog-cancel')
+          @ui.quitButton.text = "Cancel"
+        else
+          @ui.quitButton.icon = KDE::Icon.new('application-exit')
+          @ui.quitButton.text = "Exit"
+        end
       end
 
       def selectedRepositoryPath()
