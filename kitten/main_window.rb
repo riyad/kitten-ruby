@@ -10,12 +10,22 @@ module Kitten
       slots 'on_action_Open_triggered()',
             'on_historyBranchComboBox_currentIndexChanged(const QString&)'
 
+      def createActions()
+        @ui.action_Quit.connect(SIGNAL :triggered) { $kapp.quit }
+      end
+
+      def createUi()
+        return if @ui
+
+        @ui = Ui::MainWindow.new
+        @ui.setup_ui(self)
+      end
+
       def initialize(*args)
         super
-        @ui = Ui_MainWindow.new
-        @ui.setup_ui(self)
 
-        @ui.action_Quit.connect(SIGNAL :triggered) { $kapp.quit }
+        create_ui
+        create_actions
       end
 
       def loadModels()
