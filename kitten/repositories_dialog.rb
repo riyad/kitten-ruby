@@ -5,11 +5,11 @@ require 'rubygems'
 require 'git'
 
 module Kitten
-  class RepositoriesDialog < KDE::Dialog
+  class RepositoriesDialog < Qt::Dialog
 
       def initialize(*args)
         super
-        @ui = Ui_RepositoriesDialog.new
+        @ui = Ui::RepositoriesDialog.new
         @ui.setup_ui(self)
 
         @ui.repositorySearchLine.list_widget = @ui.repositoriesListWidget
