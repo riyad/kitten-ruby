@@ -9,8 +9,8 @@ module Kitten
       slots 'on_addButton_clicked()'
 
       def accept()
-        # TODO: save list of repos
-        # TODO: remember opened repo
+        save_repositories
+
         super
       end
 
@@ -41,9 +41,24 @@ module Kitten
       end
 
       def loadRepositories()
-        # TODO: load list of repos
-        # TODO: check whether repo dirs still contain repos
-        # TODO: select last opened repo
+        repo_list = @ui.repositoriesListWidget
+
+        config = KDE::Global.config
+        cg = config.group "Repositories"
+
+        repo_paths = cg.read_path_entry "List", []
+        repo_paths.each do |path|
+          add_repository path
+          # TODO: check whether repo dirs still contain repos
+        end
+
+        last_selected_path = cg.read_path_entry "Last", nil
+
+        if last_selected_path
+          select_repository last_selected_path
+        else
+          select_repository 0
+        end
       end
 
       def on_addButton_clicked()
@@ -60,6 +75,30 @@ module Kitten
         end
       end
 
+      def reject()
+        save_repositories
+
+        super
+      end
+
+      def saveRepositories()
+        repo_list = @ui.repositoriesListWidget
+
+        config = KDE::Global.config
+        cg = config.group "Repositories"
+
+        repo_paths = []
+        0.upto(repo_list.count-1) do |row|
+          repo_paths << repo_list.item(row).text
+        end
+
+        cg.write_path_entry "List", repo_paths
+
+        cg.write_path_entry "Last", selected_repository_path
+
+        config.sync
+      end
+
       def selectedRepositoryPath()
         @ui.repositoriesListWidget.current_item.text
       end
@@ -71,6 +110,7 @@ module Kitten
 
         found_items = repo_list.find_items(path, Qt::MatchExactly)
 
+        # make sure we only add a repo once
         if found_items.empty?
           item = Qt::ListWidgetItem.new KDE::Icon.new('repository'), path, repo_list
           repo_list.add_item item
