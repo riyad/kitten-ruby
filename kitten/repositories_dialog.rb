@@ -47,8 +47,20 @@ module Kitten
       end
 
       def on_addButton_clicked()
-        path = Qt::FileDialog.get_existing_directory(self, "Select Git repository location")
-        # TODO: check whether path is a git repo
+        path = Qt::FileDialog.get_existing_directory(self, i18n("Select Git repository location"))
+        if File.directory? File.join(path, '.git')
+          found_items = @ui.repositoriesListWidget.find_items(path, Qt::MatchExactly)
+
+          if found_items.empty?
+            item = Qt::ListWidgetItem.new(KDE::Icon.new('repository'), path, @ui.repositoriesListWidget)
+            @ui.repositoriesListWidget.add_item item
+            @ui.repositoriesListWidget.current_row = @ui.repositoriesListWidget.count - 1
+          else
+            @ui.repositoriesListWidget.current_row = @ui.repositoriesListWidget.row(found_items[0])
+          end
+        else
+          KDE::MessageBox::sorry(self, i18n("The selected directory does not contain a Git repository."))
+        end
       end
 
       def selectedRepositoryPath()
