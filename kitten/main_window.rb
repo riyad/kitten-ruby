@@ -38,6 +38,8 @@ module Kitten
         @ui.historyBranchComboBox.model = @branches_model
         current_branch_index = @ui.historyBranchComboBox.find_text(repository.current_branch)
         @ui.historyBranchComboBox.current_index = current_branch_index
+
+        @ui.historyTableView.resize_columns_to_contents
       end
 
       def on_action_Open_triggered()
