@@ -21,6 +21,8 @@ module Kitten
         @ui = Ui::RepositoriesDialog.new
         @ui.setup_ui(self)
 
+        self.window_icon = KDE::Icon.new('repository')
+
         @ui.repositorySearchLine.list_widget = @ui.repositoriesListWidget
 
         create_actions
