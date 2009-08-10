@@ -22,10 +22,12 @@ module Kitten
       end
 
       def initialize(*args)
-        super
+        super {}
 
         create_ui
         create_actions
+
+        yield self if block_given?
       end
 
       def loadModels()
