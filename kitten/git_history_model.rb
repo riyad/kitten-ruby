@@ -22,9 +22,10 @@ module Kitten
     end
 
     def data(index, role = Qt::DisplayRole)
-       if !index.valid? || role != Qt::DisplayRole
+       if !index.valid?
         return Qt::Variant.new
       end
+
 
       data = @commits[index.row].send ColumnMethod[Columns[index.column()]]
       if data.is_a? Git::Author
@@ -32,17 +33,28 @@ module Kitten
       elsif data.is_a? Date
         data = data.strftime
       else
-        data = data.to_s
+        data = data.to_s.strip
       end
-      return Qt::Variant.new data
+
+      case role
+      when Qt::DisplayRole:
+        Qt::Variant.new data
+      else
+        Qt::Variant.new
+      end
     end
 
     def headerData(section, orientation = Qt::Horizontal, role = Qt::DisplayRole)
-      if section > column_count || orientation != Qt::Horizontal || role != Qt::DisplayRole
+      if section > column_count || orientation != Qt::Horizontal
         return Qt::Variant.new
       end
 
-      Qt::Variant.new column_name(section)
+      case role
+      when Qt::DisplayRole:
+        Qt::Variant.new column_name(section)
+      else
+        Qt::Variant.new
+      end
     end
 
     def loadCommits()
