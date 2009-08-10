@@ -1,8 +1,7 @@
 
-require 'kitten/ui_repositories_dialog'
-
-require 'rubygems'
 require 'git'
+
+require File.join(File.dirname(__FILE__), 'ui_repositories_dialog')
 
 module Kitten
   class RepositoriesDialog < Qt::Dialog

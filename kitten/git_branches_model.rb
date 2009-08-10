@@ -1,4 +1,6 @@
 
+require 'git'
+
 require 'Qt4'
 
 module Kitten

@@ -3,6 +3,11 @@
 require 'core_ext/kernel'
 require 'core_ext/module'
 
+require 'rubygems'
+require 'git'
+require 'git_ext/git'
+require 'git_ext/commit'
+
 require 'korundum4'
 
 require 'kitten/main_window'

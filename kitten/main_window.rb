@@ -1,9 +1,9 @@
 
-require 'kitten/git_branches_model'
-require 'kitten/git_history_model'
-require 'kitten/ui_main_window'
-
 require 'git'
+
+require File.join(File.dirname(__FILE__), 'git_branches_model')
+require File.join(File.dirname(__FILE__), 'git_history_model')
+require File.join(File.dirname(__FILE__), 'ui_main_window')
 
 module Kitten
   class MainWindow < KDE::MainWindow
