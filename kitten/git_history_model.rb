@@ -26,8 +26,8 @@ module Kitten
         return Qt::Variant.new
       end
 
-
-      data = @commits[index.row].send ColumnMethod[Columns[index.column()]]
+      commit = @commits[index.row]
+      data = commit.send ColumnMethod[Columns[index.column()]]
       if data.is_a? Git::Author
         data = data.name
       elsif data.is_a? Date
@@ -39,6 +39,18 @@ module Kitten
       case role
       when Qt::DisplayRole:
         Qt::Variant.new data
+      when Qt::DecorationRole:
+        unless Columns[index.column()] == :summary
+          Qt::Variant.new
+        else
+          # TODO: find a way to detect branches
+          if commit.parents.size > 1
+            icon = Qt::Icon.new('icons/16x16/actions/git-merge.png')
+          else
+            icon = Qt::Icon.new('icons/16x16/actions/git-commit.png')
+          end
+          Qt::Variant.from_value icon
+        end
       else
         Qt::Variant.new
       end
