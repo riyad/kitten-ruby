@@ -4,3 +4,4 @@ doc/
 
 # generated ui sources
 ui_*.rb
+qrc_*.rb
