@@ -47,9 +47,9 @@ module Kitten
         else
           # TODO: find a way to detect branches
           if commit.merge?
-            icon = Qt::Icon.new('icons/16x16/actions/git-merge.png')
+            icon = Qt::Icon.new(':/icons/16x16/actions/git-merge')
           else
-            icon = Qt::Icon.new('icons/16x16/actions/git-commit.png')
+            icon = Qt::Icon.new(':/icons/16x16/actions/git-commit')
           end
           Qt::Variant.from_value icon
         end
