@@ -10,6 +10,8 @@ require 'git_ext/commit'
 
 require 'korundum4'
 
+require 'qrc_icons.rb'
+
 require 'kitten/main_window'
 require 'kitten/repositories_dialog'
 
