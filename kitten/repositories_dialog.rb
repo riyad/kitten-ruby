@@ -20,7 +20,7 @@ module Kitten
         @ui = Ui::RepositoriesDialog.new
         @ui.setup_ui(self)
 
-        self.window_icon = KDE::Icon.new('repository')
+        self.window_icon = Qt::Icon.new(':/icons/16x16/places/repository')
 
         @ui.repositorySearchLine.list_widget = @ui.repositoriesListWidget
 
@@ -30,15 +30,11 @@ module Kitten
       end
 
       def createActions()
-        @ui.newButton.icon  = KDE::Icon.new('folder-new')
-        @ui.addButton.icon  = KDE::Icon.new('list-add')
-        @ui.removeButton.icon = KDE::Icon.new('list-remove')
-        @ui.openButton.icon = KDE::Icon.new('document-open-folder')
         if parent
-          @ui.quitButton.icon = KDE::Icon.new('dialog-cancel')
+          @ui.quitButton.icon = Qt::Icon.new(':/icons/16x16/actions/dialog-cancel')
           @ui.quitButton.text = "Cancel"
         else
-          @ui.quitButton.icon = KDE::Icon.new('application-exit')
+          @ui.quitButton.icon = Qt::Icon.new(':/icons/16x16/actions/application-exit')
           @ui.quitButton.text = "Exit"
         end
       end
@@ -128,7 +124,7 @@ module Kitten
 
         # make sure we only add a repo once
         if found_items.empty?
-          item = Qt::ListWidgetItem.new KDE::Icon.new('repository'), path, repo_list
+          item = Qt::ListWidgetItem.new Qt::Icon.new(':/icons/16x16/places/repository'), path, repo_list
           repo_list.add_item item
         end
 

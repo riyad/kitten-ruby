@@ -30,12 +30,20 @@
        <property name="text">
         <string>Crate new repository ...</string>
        </property>
+       <property name="icon">
+        <iconset resource="../icons.qrc">
+         <normaloff>:/icons/16x16/actions/repository-new.png</normaloff>:/icons/16x16/actions/repository-new.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="addButton">
        <property name="text">
         <string>Add repository ...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../icons.qrc">
+         <normaloff>:/icons/16x16/actions/list-add.png</normaloff>:/icons/16x16/actions/list-add.png</iconset>
        </property>
       </widget>
      </item>
@@ -59,6 +67,10 @@
        </property>
        <property name="text">
         <string>Remove repository</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../icons.qrc">
+         <normaloff>:/icons/16x16/actions/list-remove.png</normaloff>:/icons/16x16/actions/list-remove.png</iconset>
        </property>
       </widget>
      </item>
@@ -98,12 +110,20 @@
      <property name="text">
       <string>Open selected repository</string>
      </property>
+     <property name="icon">
+      <iconset resource="../icons.qrc">
+       <normaloff>:/icons/16x16/actions/repository-open.png</normaloff>:/icons/16x16/actions/repository-open.png</iconset>
+     </property>
     </widget>
    </item>
    <item row="3" column="2">
     <widget class="QPushButton" name="quitButton">
      <property name="text">
-      <string>Quit</string>
+      <string>Cancel</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../icons.qrc">
+       <normaloff>:/icons/16x16/actions/dialog-cancel.png</normaloff>:/icons/16x16/actions/dialog-cancel.png</iconset>
      </property>
     </widget>
    </item>
@@ -135,7 +155,9 @@
   <tabstop>removeButton</tabstop>
   <tabstop>quitButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>quitButton</sender>
