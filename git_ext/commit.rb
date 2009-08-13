@@ -26,11 +26,13 @@ module Git
       end
       alias_method :children_in, :children
 
+      # true if this is a merge commit
+      # (i.e. it has more than one parent)
       def merge?
         parents.size > 1
       end
 
-      # shows the first line of the commit's message
+      # shows the first line of the message
       def summary
         message[/[^\n]*/]
       end
