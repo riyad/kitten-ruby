@@ -1,6 +1,4 @@
 
-require 'git'
-
 module Git
   class Object
     class Commit

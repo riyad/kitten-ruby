@@ -5,8 +5,7 @@ require 'core_ext/module'
 
 require 'rubygems'
 require 'git'
-require 'git_ext/git'
-require 'git_ext/commit'
+require 'git_ext'
 
 require 'korundum4'
 
