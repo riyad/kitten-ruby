@@ -2,8 +2,8 @@
 module Git
   class Object
     class Commit
-      def branched?
-        false
+      def branched?(branches = :current)
+        children(branches).size > 1
       end
 
       # Returns an array with the children of this commit.
