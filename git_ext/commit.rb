@@ -26,8 +26,16 @@ module Git
           branches = [branches].flatten
         end
 
-        children_shas = @base.lib.children_of(self.sha, branches)
-        children_shas.map { |sha| Git::Object::Commit.new(@base, sha)}
+        branches_key = branches.to_a.map(&:to_s).sort.join(' ')
+
+        @children ||= {}
+        if @children[branches_key]
+          @children[branches_key]
+        else
+          children_shas = @base.lib.children_of(self.sha, branches)
+          children = children_shas.map { |sha| Git::Object::Commit.new(@base, sha)}
+          @children[branches_key] = children
+        end
       end
       alias_method :children_in, :children
 
