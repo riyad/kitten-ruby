@@ -73,7 +73,7 @@ module Kitten
     end
 
     def loadCommits()
-      @log = @repository.log.object(@branch)
+      @log = @repository.log.object(@branch.gcommit.sha)
       @commits = @log.commits
     end
 
@@ -88,7 +88,7 @@ module Kitten
     end
 
     def setBranch(branch)
-      @branch = branch
+      @branch = @repository.branches[branch.to_s]
       reset
     end
   end
