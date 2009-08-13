@@ -73,7 +73,7 @@ module Kitten
     end
 
     def loadCommits()
-      @log = @repository.log.object(@branch.gcommit.sha)
+      @log = @repository.log(nil).object(@branch.gcommit.sha)
       @commits = @log.commits
     end
 
