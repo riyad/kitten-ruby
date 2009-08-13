@@ -2,6 +2,11 @@
 module Git
   class Object
     class Commit
+      # Returns true, when the commit has more than one child
+      # i.e. when the commit is the parent of more than one commit
+      # otherwise false
+      #
+      # You can also specify the branches to consider (see the Commit#children).
       def branched?(branches = :current)
         children(branches).size > 1
       end
