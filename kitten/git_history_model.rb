@@ -73,7 +73,7 @@ module Kitten
 
     def loadCommits()
       @log = @repository.log.object(@branch)
-      @log.each { |commit| @commits << commit }
+      @commits = @log.commits
     end
 
     def reset()
