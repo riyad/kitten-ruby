@@ -45,8 +45,9 @@ module Kitten
         unless Columns[index.column()] == :summary
           Qt::Variant.new
         else
-          # TODO: find a way to detect branches
-          if commit.merge?
+          if commit.branched?
+            icon = Qt::Icon.new(':/icons/16x16/actions/git-branch')
+          elsif commit.merge?
             icon = Qt::Icon.new(':/icons/16x16/actions/git-merge')
           else
             icon = Qt::Icon.new(':/icons/16x16/actions/git-commit')
