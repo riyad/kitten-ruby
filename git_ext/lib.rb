@@ -11,9 +11,14 @@ module Git
       arr_opts << '--'
 
       rev_list = command_lines('rev-list', arr_opts, false)
-      rev_list_for_commit = rev_list[rev_list.index { |rev_line| rev_line =~ /^#{sha}/ }]
+      rev_index_for_commit = rev_list.index { |rev_line| rev_line =~ /^#{sha}/ }
+      if rev_index_for_commit
+        rev_line_for_commit = rev_list[rev_index_for_commit]
 
-      children = rev_list_for_commit.split(' ')[1..-1]
+        children = rev_line_for_commit.split(' ')[1..-1]
+      else
+        []
+      end
     end
   end
 end
