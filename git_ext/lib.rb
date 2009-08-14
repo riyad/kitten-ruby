@@ -3,7 +3,7 @@ module Git
   class Lib
     def children_of(commit, branches)
       sha = commit.to_s
-      branches = branches.to_a.map(&:to_s)
+      branches = branches.map(&:to_s)
 
       arr_opts = ['--children']
       arr_opts += branches

@@ -21,12 +21,17 @@ module Git
       def children(branches = :current)
         case branches
         when :current: branches = [@base.current_branch]
-        when :all:     branches = @base.branches
+        when :all:     branches = @base.branches.to_a
         else
-          branches = [branches].flatten
+          if branches.is_a?(Enumerable)
+            branches = branches.to_a
+          else
+            branches = [branches]
+          end
         end
 
-        branches_key = branches.to_a.map(&:to_s).sort.join(' ')
+        branches.map!(&:to_s)
+        branches_key = branches.sort.join(' ')
 
         @children ||= {}
         if @children[branches_key]
