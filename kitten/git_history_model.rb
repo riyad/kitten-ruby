@@ -51,7 +51,7 @@ module Kitten
         else
           if commit.merge?
             icon = @@merge_icon
-          elsif commit.branched?
+          elsif commit.branched?(branch)
             icon = @@branch_icon
           else
             icon = @@commit_icon
@@ -91,6 +91,7 @@ module Kitten
       @log.size
     end
 
+    attr_accessor :branch
     def setBranch(branch)
       @branch = @repository.branches[branch.to_s]
       reset
