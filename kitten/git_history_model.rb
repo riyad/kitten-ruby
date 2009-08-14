@@ -13,6 +13,10 @@ module Kitten
       super(parent)
       @repository = repository
       self.branch = @repository.current_branch
+
+      @@branch_icon = Qt::Icon.new(':/icons/16x16/actions/git-branch')
+      @@commit_icon = Qt::Icon.new(':/icons/16x16/actions/git-commit')
+      @@merge_icon = Qt::Icon.new(':/icons/16x16/actions/git-merge')
     end
 
     def columnCount(parent = nil)
@@ -46,11 +50,11 @@ module Kitten
           Qt::Variant.new
         else
           if commit.branched?
-            icon = Qt::Icon.new(':/icons/16x16/actions/git-branch')
+            icon = @@branch_icon
           elsif commit.merge?
-            icon = Qt::Icon.new(':/icons/16x16/actions/git-merge')
+            icon = @@merge_icon
           else
-            icon = Qt::Icon.new(':/icons/16x16/actions/git-commit')
+            icon = @@commit_icon
           end
           Qt::Variant.from_value icon
         end
