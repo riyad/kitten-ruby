@@ -52,7 +52,7 @@ module Git
 
       # shows the first line of the message
       def summary
-        message[/[^\n]*/]
+        @summary ||= message[/[^\n]*/]
       end
     end
   end
