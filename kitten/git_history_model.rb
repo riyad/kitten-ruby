@@ -28,15 +28,15 @@ module Kitten
     end
 
     def data(index, role = Qt::DisplayRole)
-       if !index.valid?
+      unless index.valid?
         return Qt::Variant.new
       end
 
       commit = @commits[index.row]
-      data = commit.send ColumnMethod[Columns[index.column()]]
-      if data.is_a? Git::Author
+      data = commit.send(ColumnMethod[Columns[index.column()]])
+      if data.is_a?(Git::Author)
         data = data.name
-      elsif data.is_a? Date
+      elsif data.is_a?(Date)
         data = data.strftime
       else
         data = data.to_s.strip
@@ -44,7 +44,7 @@ module Kitten
 
       case role
       when Qt::DisplayRole:
-        Qt::Variant.new data
+        Qt::Variant.new(data)
       when Qt::DecorationRole:
         unless Columns[index.column()] == :summary
           Qt::Variant.new
@@ -56,7 +56,7 @@ module Kitten
           else
             icon = @@commit_icon
           end
-          Qt::Variant.from_value icon
+          Qt::Variant.from_value(icon)
         end
       else
         Qt::Variant.new
@@ -70,7 +70,7 @@ module Kitten
 
       case role
       when Qt::DisplayRole:
-        Qt::Variant.new column_name(section)
+        Qt::Variant.new(column_name(section))
       else
         Qt::Variant.new
       end

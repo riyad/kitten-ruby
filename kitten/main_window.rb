@@ -27,7 +27,7 @@ module Kitten
         create_ui
         create_actions
 
-        yield self if block_given?
+        yield(self) if block_given?
       end
 
       def loadModels()
@@ -57,7 +57,7 @@ module Kitten
 
       attr_accessor :repository
       def setRepository(repo_or_path)
-        repo_or_path = Git.open(repo_or_path) unless repo_or_path.is_a? Git::Base
+        repo_or_path = Git.open(repo_or_path) unless repo_or_path.is_a?(Git::Base)
         @repository = repo_or_path
         load_models
       end

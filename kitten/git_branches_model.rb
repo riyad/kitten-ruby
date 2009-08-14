@@ -28,8 +28,8 @@ module Kitten
         return Qt::Variant.new
       end
 
-      data = @branches[index.row].send ColumnMethod[Columns[index.column()]]
-      return Qt::Variant.new data
+      data = @branches[index.row].send(ColumnMethod[Columns[index.column]])
+      return Qt::Variant.new(data)
     end
 
     def headerData(section, orientation = Qt::Horizontal, role = Qt::DisplayRole)
@@ -37,7 +37,7 @@ module Kitten
         return Qt::Variant.new
       end
 
-      return Qt::Variant.new column_name(section)
+      return Qt::Variant.new(column_name(section))
     end
 
     def loadBranches()

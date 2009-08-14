@@ -1,7 +1,7 @@
 
 module Git
   class Log
-    def commits
+    def commits()
       check_log
       @commits
     end

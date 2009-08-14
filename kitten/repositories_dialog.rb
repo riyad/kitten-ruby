@@ -43,20 +43,20 @@ module Kitten
         repo_list = @ui.repositoriesListWidget
 
         config = KDE::Global.config
-        cg = config.group "Repositories"
+        cg = config.group("Repositories")
 
-        repo_paths = cg.read_path_entry "List", []
+        repo_paths = cg.read_path_entry("List", [])
         repo_paths.each do |path|
-          add_repository path
+          add_repository(path)
           # TODO: check whether repo dirs still contain repos
         end
 
-        last_selected_path = cg.read_path_entry "Last", nil
+        last_selected_path = cg.read_path_entry("Last", nil)
 
         if last_selected_path
-          select_repository last_selected_path
+          select_repository(last_selected_path)
         else
-          select_repository 0
+          select_repository(0)
         end
       end
 
@@ -71,10 +71,10 @@ module Kitten
         # make sure the user has not cancelled the file dialog
         if path
           # make sure the directors it is a Git repo
-          if Git.repository? path
-            add_repository path
+          if Git.repository?(path)
+            add_repository(path)
           else
-            KDE::MessageBox::sorry self, i18n("The selected directory does not contain a Git repository.")
+            KDE::MessageBox::sorry(self, i18n("The selected directory does not contain a Git repository."))
           end
         end
       end
@@ -83,8 +83,8 @@ module Kitten
         repo_list = @ui.repositoriesListWidget
 
         row = repo_list.current_row
-        repo_list.take_item row
-        select_repository row-1
+        repo_list.take_item(row)
+        select_repository(row-1)
       end
 
       def reject()
@@ -97,16 +97,16 @@ module Kitten
         repo_list = @ui.repositoriesListWidget
 
         config = KDE::Global.config
-        cg = config.group "Repositories"
+        cg = config.group("Repositories")
 
         repo_paths = []
         0.upto(repo_list.count-1) do |row|
           repo_paths << repo_list.item(row).text
         end
 
-        cg.write_path_entry "List", repo_paths
+        cg.write_path_entry("List", repo_paths)
 
-        cg.write_path_entry "Last", selected_repository_path
+        cg.write_path_entry("Last", selected_repository_path)
 
         config.sync
       end
@@ -124,22 +124,22 @@ module Kitten
 
         # make sure we only add a repo once
         if found_items.empty?
-          item = Qt::ListWidgetItem.new Qt::Icon.new(':/icons/16x16/places/repository'), path, repo_list
-          repo_list.add_item item
+          item = Qt::ListWidgetItem.new(Qt::Icon.new(':/icons/16x16/places/repository'), path, repo_list)
+          repo_list.add_item(item)
         end
 
-        select_repository path
+        select_repository(path)
       end
 
       def selectRepository(item_or_path_or_row)
         repo_list = @ui.repositoriesListWidget
-        if item_or_path_or_row.is_a? Qt::ListWidgetItem
+        if item_or_path_or_row.is_a?(Qt::ListWidgetItem)
           repo_list.current_item = item_or_path_or_row
-        elsif item_or_path_or_row.is_a? Integer
+        elsif item_or_path_or_row.is_a?(Integer)
           repo_list.current_row = 0
         else
           found_items = repo_list.find_items(item_or_path_or_row.to_s, Qt::MatchExactly)
-          repo_list.current_row = repo_list.row found_items[0] unless found_items.empty?
+          repo_list.current_row = repo_list.row(found_items[0]) unless found_items.empty?
         end
       end
   end
