@@ -49,10 +49,10 @@ module Kitten
         unless Columns[index.column()] == :summary
           Qt::Variant.new
         else
-          if commit.branched?
-            icon = @@branch_icon
-          elsif commit.merge?
+          if commit.merge?
             icon = @@merge_icon
+          elsif commit.branched?
+            icon = @@branch_icon
           else
             icon = @@commit_icon
           end
