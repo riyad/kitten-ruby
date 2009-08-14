@@ -64,7 +64,25 @@
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="KTextEdit" name="historyDiffTextEdit"/>
+          <widget class="KTextEdit" name="historyDiffTextEdit">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="font">
+            <font>
+             <family>Droid Sans Mono</family>
+            </font>
+           </property>
+           <property name="undoRedoEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="lineWrapMode">
+            <enum>QTextEdit::NoWrap</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </widget>
         </item>
        </layout>
