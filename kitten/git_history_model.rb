@@ -27,6 +27,12 @@ module Kitten
       ColumnName[Columns[column]]
     end
 
+    def map_to_commit(index)
+      return unless index.valid?
+
+      @commits[index.row]
+    end
+
     def data(index, role = Qt::DisplayRole)
       unless index.valid?
         return Qt::Variant.new
