@@ -8,7 +8,8 @@ require File.join(File.dirname(__FILE__), 'ui_main_window')
 module Kitten
   class MainWindow < KDE::MainWindow
       slots 'on_action_Open_triggered()',
-            'on_historyBranchComboBox_currentIndexChanged(const QString&)'
+            'on_historyBranchComboBox_currentIndexChanged(const QString&)',
+            'on_historyTreeView_clicked(const QModelIndex&)'
 
       def createActions()
         @ui.action_Quit.connect(SIGNAL :triggered) { $kapp.quit }
@@ -39,7 +40,9 @@ module Kitten
         current_branch_index = @ui.historyBranchComboBox.find_text(repository.current_branch)
         @ui.historyBranchComboBox.current_index = current_branch_index
 
-        #@ui.historyTreeView.resize_columns_to_contents
+        current_history_index = @history_model.index(0, 0)
+        @ui.historyTreeView.currentIndex = current_history_index
+        on_historyTreeView_clicked(current_history_index)
       end
 
       def on_action_Open_triggered()
@@ -53,6 +56,16 @@ module Kitten
 
       def on_historyBranchComboBox_currentIndexChanged(current_branch)
         @history_model.branch = current_branch
+      end
+
+      def on_historyTreeView_clicked(index)
+        commit = @history_model.map_to_commit(index)
+        historyDiff = "SHA: #{commit.sha}\n" +
+                      "Author: #{commit.author.name} <#{commit.author.email}> #{commit.author_date}\n" +
+                      "Message: #{commit.message}\n" +
+                      "\n" +
+                      (commit.parents.empty? ? "" : commit.diff_parent.to_s)
+        @ui.historyDiffTextEdit.text = historyDiff
       end
 
       attr_accessor :repository
