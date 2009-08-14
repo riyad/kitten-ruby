@@ -7,7 +7,7 @@ module Kitten
   class GitHistoryModel < Qt::AbstractTableModel
     Columns = [:summary, :author, :author_date]
     ColumnName = {:summary => 'Summary', :author => 'Author', :author_date => 'Date', :id => 'Id'}
-    ColumnMethod = {:summary => :message, :author => :author, :author_date => :author_date, :id => :sha}
+    ColumnMethod = {:summary => :summary, :author => :author, :author_date => :author_date, :id => :sha}
 
     def initialize(repository, parent = nil)
       super(parent)
