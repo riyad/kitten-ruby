@@ -12,7 +12,15 @@ module Kitten
       yield(self) if block_given?
     end
 
-    def update_view()
+    def updateView()
+      @ui.shaLabel.text = commit.sha
+      @ui.authorLabel.text = "#{commit.author.name} <#{commit.author.email}> #{commit.author_date}"
+      @ui.messageLabel.text = commit.message
+      @ui.diffTextBrowser.text = unless commit.parents.empty?
+                                    commit.diff_parent.to_s
+                                  else
+                                    ''
+                                 end
     end
 
     attr_accessor :commit
