@@ -1,11 +1,18 @@
 
-all: *.rb kitten/*.rb
+QRC_DIR = .
+QRC = icons
+QRC_FILES = ${QRC:%=${QRC_DIR}/%.qrc}
+QRC_GENERATED_FILES = ${QRC:%=${QRC_DIR}/qrc_%.rb}
 
-kitten/ui_main_window.rb: kitten/main_window.ui
-	rbuic4 -kde kitten/main_window.ui -o kitten/ui_main_window.rb
+UI_DIR = ./kitten
+UI = main_window repositories_dialog
+UI_FILES = ${UI:%=${UI_DIR}/%.ui}
+UI_GENERATED_FILES = ${UI:%=${UI_DIR}/ui_%.rb}
 
-kitten/ui_repositories_dialog.rb: kitten/repositories_dialog.ui
-	rbuic4 -kde kitten/repositories_dialog.ui -o kitten/ui_repositories_dialog.rb
+all: ${QRC_FILES} ${QRC_GENERATED_FILES} ${UI_FILES} ${UI_GENERATED_FILES}
 
-qrc_icons.rb: icons.qrc
-	rbrcc -name icons icons.qrc -o qrc_icons.rb
+kitten/ui_%.rb: kitten/%.ui
+	rbuic4 -kde $< -o $@
+
+qrc_%.rb: %.qrc
+	rbrcc icons.qrc -o qrc_icons.rb
