@@ -9,7 +9,7 @@ module Kitten
       @ui = Ui::CommitWidget.new
       @ui.setup_ui(self)
 
-      yield if block_given?
+      yield(self) if block_given?
     end
 
     def update_view()
