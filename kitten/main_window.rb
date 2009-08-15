@@ -3,13 +3,18 @@ require 'git'
 
 require File.join(File.dirname(__FILE__), 'git_branches_model')
 require File.join(File.dirname(__FILE__), 'git_history_model')
+require File.join(File.dirname(__FILE__), 'commit_widget')
 require File.join(File.dirname(__FILE__), 'ui_main_window')
+
+class Ui_MainWindow
+  CommitWidget = ::Kitten::CommitWidget
+end
 
 module Kitten
   class MainWindow < KDE::MainWindow
       slots 'on_action_Open_triggered()',
             'on_historyBranchComboBox_currentIndexChanged(const QString&)',
-            'on_historyTreeView_clicked(const QModelIndex&)'
+            'on_historyView_clicked(const QModelIndex&)'
 
       def createActions()
         @ui.action_Quit.connect(SIGNAL :triggered) { $kapp.quit }
@@ -35,14 +40,14 @@ module Kitten
         @history_model = GitHistoryModel.new(repository, self)
         @branches_model = GitBranchesModel.new(repository, self)
 
-        @ui.historyTreeView.model = @history_model
+        @ui.historyView.model = @history_model
         @ui.historyBranchComboBox.model = @branches_model
         current_branch_index = @ui.historyBranchComboBox.find_text(repository.current_branch)
         @ui.historyBranchComboBox.current_index = current_branch_index
 
         current_history_index = @history_model.index(0, 0)
-        @ui.historyTreeView.currentIndex = current_history_index
-        on_historyTreeView_clicked(current_history_index)
+        @ui.historyView.currentIndex = current_history_index
+        on_historyView_clicked(current_history_index)
       end
 
       def on_action_Open_triggered()
@@ -58,14 +63,8 @@ module Kitten
         @history_model.branch = current_branch
       end
 
-      def on_historyTreeView_clicked(index)
-        commit = @history_model.map_to_commit(index)
-        historyDiff = "SHA: #{commit.sha}\n" +
-                      "Author: #{commit.author.name} <#{commit.author.email}> #{commit.author_date}\n" +
-                      "Message: #{commit.message}\n" +
-                      "\n" +
-                      (commit.parents.empty? ? "" : commit.diff_parent.to_s)
-        @ui.historyDiffTextEdit.text = historyDiff
+      def on_historyView_clicked(index)
+        @ui.commitWidget.commit = @history_model.map_to_commit(index)
       end
 
       attr_accessor :repository
