@@ -4,7 +4,8 @@ require 'git'
 require File.join(File.dirname(__FILE__), 'ui_repositories_dialog')
 
 module Kitten
-  class RepositoriesDialog < Qt::Dialog
+  module Ui
+    class RepositoriesDialog < Qt::Dialog
       slots 'on_repositoriesListWidget_currentTextChanged(const QString&)',
             'on_addButton_clicked()',
             'on_removeButton_clicked()'
@@ -17,7 +18,7 @@ module Kitten
 
       def initialize(*args)
         super
-        @ui = Ui::RepositoriesDialog.new
+        @ui = Ui_RepositoriesDialog.new
         @ui.setup_ui(self)
 
         self.window_icon = Qt::Icon.new(':/icons/16x16/places/repository')
@@ -142,5 +143,6 @@ module Kitten
           repo_list.current_row = repo_list.row(found_items[0]) unless found_items.empty?
         end
       end
+    end
   end
 end

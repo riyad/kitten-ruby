@@ -1,17 +1,18 @@
 
 require 'git'
 
-require File.join(File.dirname(__FILE__), 'git_branches_model')
-require File.join(File.dirname(__FILE__), 'git_history_model')
+require File.join(File.dirname(__FILE__), '../models/git_branches_model')
+require File.join(File.dirname(__FILE__), '../models/git_history_model')
 require File.join(File.dirname(__FILE__), 'commit_widget')
 require File.join(File.dirname(__FILE__), 'ui_main_window')
 
 class Ui_MainWindow
-  CommitWidget = ::Kitten::CommitWidget
+  CommitWidget = ::Kitten::Ui::CommitWidget
 end
 
 module Kitten
-  class MainWindow < KDE::MainWindow
+  module Ui
+    class MainWindow < KDE::MainWindow
       slots 'on_action_Open_triggered()',
             'on_historyBranchComboBox_currentIndexChanged(const QString&)',
             'on_historyView_clicked(const QModelIndex&)'
@@ -23,7 +24,7 @@ module Kitten
       def createUi()
         return if @ui
 
-        @ui = Ui::MainWindow.new
+        @ui = Ui_MainWindow.new
         @ui.setup_ui(self)
       end
 
@@ -37,8 +38,8 @@ module Kitten
       end
 
       def loadModels()
-        @history_model = GitHistoryModel.new(repository, self)
-        @branches_model = GitBranchesModel.new(repository, self)
+        @history_model = Models::GitHistoryModel.new(repository, self)
+        @branches_model = Models::GitBranchesModel.new(repository, self)
 
         @ui.historyView.model = @history_model
         @ui.historyBranchComboBox.model = @branches_model
@@ -73,5 +74,6 @@ module Kitten
         @repository = repo_or_path
         load_models
       end
+    end
   end
 end

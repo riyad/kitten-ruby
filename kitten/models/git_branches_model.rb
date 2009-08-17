@@ -4,54 +4,56 @@ require 'git'
 require 'Qt4'
 
 module Kitten
-  class GitBranchesModel < Qt::AbstractTableModel
-    Columns = [:name, :id]
-    ColumnName = {:name => 'Name'}
-    ColumnMethod = {:name => :name}
+  module Models
+    class GitBranchesModel < Qt::AbstractTableModel
+      Columns = [:name, :id]
+      ColumnName = {:name => 'Name'}
+      ColumnMethod = {:name => :name}
 
-    def initialize(repository, parent = nil)
-      super(parent)
-      @repository = repository
-      load_branches
-    end
-
-    def columnCount(parent = nil)
-      Columns.size
-    end
-
-    def columnName(column)
-      ColumnName[Columns[column]]
-    end
-
-    def data(index, role = Qt::DisplayRole)
-       if !index.valid? || role != Qt::DisplayRole
-        return Qt::Variant.new
+      def initialize(repository, parent = nil)
+        super(parent)
+        @repository = repository
+        load_branches
       end
 
-      data = @branches[index.row].send(ColumnMethod[Columns[index.column]])
-      return Qt::Variant.new(data)
-    end
-
-    def headerData(section, orientation = Qt::Horizontal, role = Qt::DisplayRole)
-      if section > column_count || orientation != Qt::Horizontal || role != Qt::DisplayRole
-        return Qt::Variant.new
+      def columnCount(parent = nil)
+        Columns.size
       end
 
-      return Qt::Variant.new(column_name(section))
-    end
+      def columnName(column)
+        ColumnName[Columns[column]]
+      end
 
-    def loadBranches()
-      @branches = @repository.branches.local
-    end
+      def data(index, role = Qt::DisplayRole)
+        if !index.valid? || role != Qt::DisplayRole
+          return Qt::Variant.new
+        end
 
-    def reset()
-      @commits = []
-      load_branches
-      super
-    end
+        data = @branches[index.row].send(ColumnMethod[Columns[index.column]])
+        return Qt::Variant.new(data)
+      end
 
-    def rowCount(parent = nil)
-      @branches.size
+      def headerData(section, orientation = Qt::Horizontal, role = Qt::DisplayRole)
+        if section > column_count || orientation != Qt::Horizontal || role != Qt::DisplayRole
+          return Qt::Variant.new
+        end
+
+        return Qt::Variant.new(column_name(section))
+      end
+
+      def loadBranches()
+        @branches = @repository.branches.local
+      end
+
+      def reset()
+        @commits = []
+        load_branches
+        super
+      end
+
+      def rowCount(parent = nil)
+        @branches.size
+      end
     end
   end
 end

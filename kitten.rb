@@ -11,8 +11,8 @@ require 'korundum4'
 
 require 'qrc_icons.rb'
 
-require 'kitten/main_window'
-require 'kitten/repositories_dialog'
+require 'kitten/ui/main_window'
+require 'kitten/ui/repositories_dialog'
 
 description = "A GUI for Git."
 version     = "0.1"
@@ -27,11 +27,11 @@ KDE::CmdLineArgs.init(ARGV, about_data)
 
 KDE::Application.new
 
-repos_dialog = Kitten::RepositoriesDialog.new
+repos_dialog = Kitten::Ui::RepositoriesDialog.new
 repos_dialog.exec
 
 if repos_dialog.result == Qt::Dialog::Accepted
-  Kitten::MainWindow.new do |kitten|
+  Kitten::Ui::MainWindow.new do |kitten|
     kitten.repository = repos_dialog.selected_repository_path
     kitten.show
   end
