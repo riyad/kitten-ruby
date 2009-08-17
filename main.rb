@@ -9,7 +9,7 @@ require 'git_ext'
 
 require 'korundum4'
 
-require 'qrc_icons.rb'
+require 'kitten/resources/qrc_icons.rb'
 
 require 'kitten/ui/main_window'
 require 'kitten/ui/repositories_dialog'

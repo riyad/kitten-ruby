@@ -1,5 +1,5 @@
 
-QRC_DIR = .
+QRC_DIR = ./kitten/resources
 QRC = icons
 QRC_FILES = ${QRC:%=${QRC_DIR}/%.qrc}
 QRC_GENERATED_FILES = ${QRC:%=${QRC_DIR}/qrc_%.rb}
@@ -14,5 +14,5 @@ all: ${QRC_FILES} ${QRC_GENERATED_FILES} ${UI_FILES} ${UI_GENERATED_FILES}
 kitten/ui/ui_%.rb: kitten/ui/%.ui
 	rbuic4 -kde $< -o $@
 
-qrc_%.rb: %.qrc
-	rbrcc icons.qrc -o qrc_icons.rb
+kitten/resources/qrc_%.rb: kitten/resources/%.qrc
+	rbrcc $< -o $@
