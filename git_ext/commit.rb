@@ -10,6 +10,7 @@ module Git
       def branched?(branches = :current)
         children(branches).size > 1
       end
+      alias_method :branched_on?, :branched?
 
       # Returns an array with the children of this commit.
       #

@@ -58,7 +58,7 @@ module Kitten
           else
             if commit.merge?
               icon = @@merge_icon
-            elsif commit.branched?(branch)
+            elsif commit.branched_on?(branch)
               icon = @@branch_icon
             else
               icon = @@commit_icon
