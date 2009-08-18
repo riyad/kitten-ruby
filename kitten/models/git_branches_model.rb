@@ -46,7 +46,6 @@ module Kitten
       end
 
       def reset()
-        @commits = []
         load_branches
         super
       end
