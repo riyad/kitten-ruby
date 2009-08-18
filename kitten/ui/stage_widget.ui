@@ -23,7 +23,26 @@
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QTreeView" name="unstagedChangesView"/>
+      <widget class="QTreeView" name="unstagedChangesView">
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="textElideMode">
+        <enum>Qt::ElideLeft</enum>
+       </property>
+       <property name="rootIsDecorated">
+        <bool>false</bool>
+       </property>
+       <property name="itemsExpandable">
+        <bool>false</bool>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="headerHidden">
+        <bool>true</bool>
+       </property>
+      </widget>
       <widget class="QTreeView" name="stagedChangesView"/>
      </widget>
      <widget class="QSplitter" name="splitter">
@@ -31,7 +50,7 @@
        <enum>Qt::Vertical</enum>
       </property>
       <widget class="KTextBrowser" name="diffBrowser"/>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0" colspan="2">
          <widget class="KTextEdit" name="commitMessageTextEdit"/>
