@@ -4,10 +4,12 @@ require 'git'
 require File.join(File.dirname(__FILE__), '../models/git_branches_model')
 require File.join(File.dirname(__FILE__), '../models/git_history_model')
 require File.join(File.dirname(__FILE__), 'commit_widget')
+require File.join(File.dirname(__FILE__), 'stage_widget')
 require File.join(File.dirname(__FILE__), 'ui_main_window')
 
 class Ui_MainWindow
-  CommitWidget = ::Kitten::Ui::CommitWidget
+  CommitWidget = Kitten::Ui::CommitWidget
+  StageWidget = Kitten::Ui::StageWidget
 end
 
 module Kitten

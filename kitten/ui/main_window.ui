@@ -20,6 +20,16 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
+      <widget class="QWidget" name="stageTab">
+       <attribute name="title">
+        <string>Stage</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="StageWidget" name="stageWidget" native="true"/>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="historyWidget">
        <attribute name="title">
         <string>History</string>
@@ -139,6 +149,12 @@
    <class>CommitWidget</class>
    <extends>QWidget</extends>
    <header>commitwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StageWidget</class>
+   <extends>QWidget</extends>
+   <header>stagewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
