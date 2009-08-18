@@ -39,7 +39,7 @@ module Kitten
           return Qt::Variant.new
         end
 
-        commit = @commits[index.row]
+        commit = map_to_commit(index)
         data = commit.send(ColumnMethod[Columns[index.column()]])
         if data.is_a?(Git::Author)
           data = data.name
