@@ -16,6 +16,7 @@ module Kitten
   module Ui
     class MainWindow < KDE::MainWindow
       slots 'on_action_Open_triggered()',
+            'on_action_Reload_triggered()',
             'on_historyBranchComboBox_currentIndexChanged(const QString&)',
             'on_historyView_clicked(const QModelIndex&)'
 
@@ -62,6 +63,13 @@ module Kitten
           path = repos_dialog.selected_repository_path
           self.repository = path
         end
+      end
+
+      def on_action_Reload_triggered()
+        @history_model.reset
+        @branches_model.reset
+
+        @ui.stageWidget.refresh
       end
 
       def on_historyBranchComboBox_currentIndexChanged(current_branch)
