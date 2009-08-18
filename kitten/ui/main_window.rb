@@ -51,6 +51,8 @@ module Kitten
         current_history_index = @history_model.index(0, 0)
         @ui.historyView.currentIndex = current_history_index
         on_historyView_clicked(current_history_index)
+
+        @ui.stageWidget.repository = repository
       end
 
       def on_action_Open_triggered()
