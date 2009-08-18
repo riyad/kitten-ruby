@@ -5,7 +5,7 @@ QRC_FILES = ${QRC:%=${QRC_DIR}/%.qrc}
 QRC_GENERATED_FILES = ${QRC:%=${QRC_DIR}/qrc_%.rb}
 
 UI_DIR = ./kitten/ui
-UI = commit_widget main_window repositories_dialog
+UI = commit_widget main_window repositories_dialog stage_widget
 UI_FILES = ${UI:%=${UI_DIR}/%.ui}
 UI_GENERATED_FILES = ${UI:%=${UI_DIR}/ui_%.rb}
 
