@@ -1,6 +1,4 @@
 
-require 'git'
-
 require File.join(File.dirname(__FILE__), '../models/git_branches_model')
 require File.join(File.dirname(__FILE__), '../models/git_history_model')
 require File.join(File.dirname(__FILE__), 'commit_widget')

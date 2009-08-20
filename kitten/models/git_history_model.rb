@@ -1,5 +1,5 @@
 
-require 'git'
+require 'date'
 
 require 'Qt4'
 

@@ -1,6 +1,4 @@
 
-require 'git'
-
 require 'Qt4'
 
 module Kitten
@@ -51,6 +49,7 @@ module Kitten
 
       def loadFiles()
         @files = []
+        diffs = @repository.lib.diff_files
         status = @repository.status
         @files += status.added
         @files += status.changed

@@ -3,9 +3,7 @@
 require 'core_ext/kernel'
 require 'core_ext/module'
 
-require 'rubygems'
-require 'git'
-require 'git_ext'
+require 'lib/git'
 
 require 'korundum4'
 
