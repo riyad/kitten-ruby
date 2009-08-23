@@ -48,19 +48,13 @@ module Kitten
       end
 
       def loadFiles()
-        @files = []
-        diffs = @repository.lib.diff_files
-        status = @repository.status
-        @files += status.added
-        @files += status.changed
-        @files += status.deleted
-        @files += status.untracked
+        @files = @repository.status.unstaged
       end
 
       def map_to_status_file(index)
         return unless index.valid?
 
-        @files[index.row][1]
+        @files[index.row]
       end
 
       def reset()

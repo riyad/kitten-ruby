@@ -31,11 +31,10 @@ module Kitten
 
       def on_unstagedChangesView_clicked(index)
         status_file = @unstaged_files_model.map_to_status_file(index)
-        @ui.diffBrowser.text = if status_file
-                                  # shows old contents
-                                  status_file.blob.contents
+        @ui.diffBrowser.text = if status_file.untracked?
+                                  status_file.blob.to_s
                                 else
-                                  ''
+                                  status_file.diff.to_s
                                 end
       end
 
