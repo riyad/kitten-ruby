@@ -32,6 +32,7 @@ module Kitten
       def reload()
         @staged_files_model.reset
         @unstaged_files_model.reset
+        clear_change_view
       end
 
       def on_stagedChangesView_clicked(index)
@@ -78,6 +79,11 @@ module Kitten
 
         @ui.diffDescription.title = type.name
         @ui.diffBrowser.text = data
+      end
+
+      def clearChangeView()
+        @ui.diffDescription.title = ""
+        @ui.diffBrowser.clear
       end
     end
   end

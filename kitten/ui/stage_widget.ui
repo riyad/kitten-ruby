@@ -124,7 +124,7 @@
         <item row="0" column="0" colspan="2">
          <widget class="QGroupBox" name="diffDescription">
           <property name="title">
-           <string>Diff</string>
+           <string/>
           </property>
           <property name="flat">
            <bool>true</bool>
