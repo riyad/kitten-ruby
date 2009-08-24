@@ -67,7 +67,7 @@ module Kitten
         @history_model.reset
         @branches_model.reset
 
-        @ui.stageWidget.refresh
+        @ui.stageWidget.reload
       end
 
       def on_historyBranchComboBox_currentIndexChanged(current_branch)
