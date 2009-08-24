@@ -3,7 +3,7 @@ require 'Qt4'
 
 module Kitten
   module Models
-    class GitUnstagedFilesModel < Qt::AbstractTableModel
+    class GitFileStatusModel < Qt::AbstractTableModel
       Columns = [:path]
       ColumnName = {:path => 'Path'}
       ColumnMethod = {:path => :path}
