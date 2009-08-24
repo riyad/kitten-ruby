@@ -5,12 +5,19 @@ module Kitten
   module Models
     class GitUnstagedFilesModel < Qt::AbstractTableModel
       Columns = [:path]
-      ColumnName = {:name => 'Name', :path => 'Path'}
-      ColumnMethod = {:name => :name, :path => :path}
+      ColumnName = {:path => 'Path'}
+      ColumnMethod = {:path => :path}
 
       def initialize(repository, parent = nil)
         super(parent)
         @repository = repository
+
+
+        @@added_icon = Qt::Icon.new(':/icons/16x16/status/git-file-added')
+        @@deleted_icon = Qt::Icon.new(':/icons/16x16/status/git-file-deleted')
+        @@modified_icon = Qt::Icon.new(':/icons/16x16/status/git-file-modified')
+        @@untracked_icon = Qt::Icon.new(':/icons/16x16/status/git-file-untracked')
+
         load_files
       end
 
@@ -23,17 +30,30 @@ module Kitten
       end
 
       def data(index, role = Qt::DisplayRole)
-        if !index.valid? || role != Qt::DisplayRole
+        unless index.valid?
           return Qt::Variant.new
         end
 
         status_file = map_to_status_file(index)
 
-        case Columns[index.column]
-        when :name:
-          Qt::Variant.new(File.basename(status_file.path))
-        when :path:
-          Qt::Variant.new(status_file.path)
+        case role
+        when Qt::DisplayRole:
+          Qt::Variant.new(status_file.send(ColumnMethod[Columns[index.column]]))
+        when Qt::DecorationRole:
+          if index.column() == 0
+            if status_file.added?
+              icon = @@added_icon
+            elsif status_file.deleted?
+              icon = @@deleted_icon
+            elsif status_file.modified?
+              icon = @@modified_icon
+            else
+              icon = @@untracked_icon
+            end
+            Qt::Variant.from_value(icon)
+          else
+            Qt::Variant.new
+          end
         else
           Qt::Variant.new
         end
