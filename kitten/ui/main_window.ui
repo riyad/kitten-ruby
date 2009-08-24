@@ -25,57 +25,24 @@
         <string>Stage</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
+        <property name="margin">
+         <number>0</number>
+        </property>
         <item row="0" column="0">
          <widget class="StageWidget" name="stageWidget" native="true"/>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="historyWidget">
+      <widget class="QWidget" name="historyTab">
        <attribute name="title">
         <string>History</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Branch:</string>
-          </property>
-         </widget>
-        </item>
+        <property name="margin">
+         <number>0</number>
+        </property>
         <item row="0" column="1">
-         <widget class="KComboBox" name="historyBranchComboBox"/>
-        </item>
-        <item row="0" column="2">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>483</width>
-            <height>23</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="0" colspan="3">
-         <widget class="QSplitter" name="splitter">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <widget class="QTreeView" name="historyView">
-           <property name="alternatingRowColors">
-            <bool>true</bool>
-           </property>
-           <property name="rootIsDecorated">
-            <bool>false</bool>
-           </property>
-           <property name="itemsExpandable">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="CommitWidget" name="commitWidget" native="true"/>
-         </widget>
+         <widget class="HistoryWidget" name="historyWidget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -135,26 +102,21 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>CommitWidget</class>
-   <extends>QWidget</extends>
-   <header>commitwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>StageWidget</class>
    <extends>QWidget</extends>
    <header>stagewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>HistoryWidget</class>
+   <extends>QWidget</extends>
+   <header>historywidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
