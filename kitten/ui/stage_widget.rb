@@ -1,5 +1,5 @@
 
-require File.join(File.dirname(__FILE__), '../models/git_unstaged_files_model')
+require File.join(File.dirname(__FILE__), '../models/git_file_status_model')
 require File.join(File.dirname(__FILE__), 'ui_stage_widget')
 
 module Kitten
@@ -21,7 +21,7 @@ module Kitten
       end
 
       def loadModels()
-        @unstaged_files_model = Models::GitUnstagedFilesModel.new(repository, self)
+        @unstaged_files_model = Models::GitFileStatusModel.new(repository, :unstaged, self)
         @ui.unstagedChangesView.model = @unstaged_files_model
       end
 
