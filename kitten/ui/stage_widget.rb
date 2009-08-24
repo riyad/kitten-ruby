@@ -37,31 +37,47 @@ module Kitten
       def on_stagedChangesView_clicked(index)
         @ui.unstagedChangesView.clear_selection
         status_file = @staged_files_model.map_to_status_file(index)
-        if status_file.untracked?
-          @ui.diffDescription.title = "Raw"
-          @ui.diffBrowser.text = status_file.blob.to_s
-        else
-          @ui.diffDescription.title = "Diff"
-          @ui.diffBrowser.text =   status_file.diff.to_s
-        end
+        show_file_status(status_file)
       end
 
       def on_unstagedChangesView_clicked(index)
         @ui.stagedChangesView.clear_selection
         status_file = @unstaged_files_model.map_to_status_file(index)
-        if status_file.untracked?
-          @ui.diffDescription.title = "Raw"
-          @ui.diffBrowser.text = status_file.blob.to_s
-        else
-          @ui.diffDescription.title = "Diff"
-          @ui.diffBrowser.text =   status_file.diff.to_s
-        end
+        show_file_status(status_file)
       end
 
       attr_accessor :repository
       def setRepository(repo)
         @repository = repo
         load_models
+      end
+
+      private
+
+      def showFileStatus(status_file)
+        if status_file.untracked?
+          type = :blob
+          data = status_file.blob.to_s
+        else
+          type = :diff
+          data = status_file.diff.to_s
+        end
+        show_data(data, status_file.path, type)
+      end
+
+      def showData(data, file = nil, type = :blob)
+        byte_array = Qt::ByteArray.new(data)
+        if file && type == :blob
+          type = KDE::MimeType.find_by_name_and_content(file, byte_array)
+        else
+          type = KDE::MimeType.find_by_content(byte_array)
+        end
+        binary = KDE::MimeType.isBufferBinaryData(byte_array)
+
+        data = "Binary file (content not shown)" if binary
+
+        @ui.diffDescription.title = type.name
+        @ui.diffBrowser.text = data
       end
     end
   end
