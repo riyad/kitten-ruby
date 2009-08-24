@@ -53,9 +53,7 @@ module Kitten
         when Qt::DisplayRole:
           Qt::Variant.new(data)
         when Qt::DecorationRole:
-          unless Columns[index.column()] == :summary
-            Qt::Variant.new
-          else
+          if index.column() == 0
             if commit.merge?
               icon = @@merge_icon
             elsif commit.branched_on?(branch)
@@ -64,6 +62,8 @@ module Kitten
               icon = @@commit_icon
             end
             Qt::Variant.from_value(icon)
+          else
+            Qt::Variant.new
           end
         else
           Qt::Variant.new
