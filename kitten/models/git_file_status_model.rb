@@ -8,10 +8,21 @@ module Kitten
       ColumnName = {:path => 'Path'}
       ColumnMethod = {:path => :path}
 
-      def initialize(repository, parent = nil)
+      # status can be any of
+      #   :all for all of the files
+      #
+      #   :added     for only the added files
+      #   :deleted   for only the deleted files
+      #   :modified  for only the modified files
+      #   :untracked for only the untracked files
+      #
+      #   :staged   for only the staged
+      #   :unstaged for only the unstaged
+      def initialize(repository, status, parent = nil)
         super(parent)
         @repository = repository
 
+        @status = status
 
         @@added_icon = Qt::Icon.new(':/icons/16x16/status/git-file-added')
         @@deleted_icon = Qt::Icon.new(':/icons/16x16/status/git-file-deleted')
@@ -68,7 +79,11 @@ module Kitten
       end
 
       def loadFiles()
-        @files = @repository.status.unstaged
+        if @status == :all
+          @files = @repository.status.to_a
+        else
+          @files = @repository.status.send(@status)
+        end
       end
 
       def map_to_status_file(index)
