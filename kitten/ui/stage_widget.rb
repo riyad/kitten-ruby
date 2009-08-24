@@ -31,11 +31,13 @@ module Kitten
 
       def on_unstagedChangesView_clicked(index)
         status_file = @unstaged_files_model.map_to_status_file(index)
-        @ui.diffBrowser.text = if status_file.untracked?
-                                  status_file.blob.to_s
-                                else
-                                  status_file.diff.to_s
-                                end
+        if status_file.untracked?
+          @ui.diffDescription.title = "Raw"
+          @ui.diffBrowser.text = status_file.blob.to_s
+        else
+          @ui.diffDescription.title = "Diff"
+          @ui.diffBrowser.text =   status_file.diff.to_s
+        end
       end
 
       attr_accessor :repository
