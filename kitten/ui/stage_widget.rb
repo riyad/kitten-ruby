@@ -5,7 +5,8 @@ require File.join(File.dirname(__FILE__), 'ui_stage_widget')
 module Kitten
   module Ui
     class StageWidget < Qt::Widget
-      slots 'on_unstagedChangesView_clicked(const QModelIndex&)'
+      slots 'on_stagedChangesView_clicked(const QModelIndex&)',
+            'on_unstagedChangesView_clicked(const QModelIndex&)'
 
       def createUi()
         @ui = Ui_StageWidget.new
@@ -21,15 +22,32 @@ module Kitten
       end
 
       def loadModels()
+        @staged_files_model = Models::GitFileStatusModel.new(repository, :staged, self)
+        @ui.stagedChangesView.model = @staged_files_model
+
         @unstaged_files_model = Models::GitFileStatusModel.new(repository, :unstaged, self)
         @ui.unstagedChangesView.model = @unstaged_files_model
       end
 
       def reload()
+        @staged_files_model.reset
         @unstaged_files_model.reset
       end
 
+      def on_stagedChangesView_clicked(index)
+        @ui.unstagedChangesView.clear_selection
+        status_file = @staged_files_model.map_to_status_file(index)
+        if status_file.untracked?
+          @ui.diffDescription.title = "Raw"
+          @ui.diffBrowser.text = status_file.blob.to_s
+        else
+          @ui.diffDescription.title = "Diff"
+          @ui.diffBrowser.text =   status_file.diff.to_s
+        end
+      end
+
       def on_unstagedChangesView_clicked(index)
+        @ui.stagedChangesView.clear_selection
         status_file = @unstaged_files_model.map_to_status_file(index)
         if status_file.untracked?
           @ui.diffDescription.title = "Raw"
