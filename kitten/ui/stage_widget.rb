@@ -22,10 +22,10 @@ module Kitten
       end
 
       def loadModels()
-        @staged_files_model = Models::GitFileStatusModel.new(repository, :staged, self)
+        @staged_files_model = Kitten::Models::GitFileStatusModel.new(repository, :staged, self)
         @ui.stagedChangesView.model = @staged_files_model
 
-        @unstaged_files_model = Models::GitFileStatusModel.new(repository, :unstaged, self)
+        @unstaged_files_model = Kitten::Models::GitFileStatusModel.new(repository, :unstaged, self)
         @ui.unstagedChangesView.model = @unstaged_files_model
       end
 
