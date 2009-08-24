@@ -5,7 +5,9 @@ require File.join(File.dirname(__FILE__), 'ui_stage_widget')
 module Kitten
   module Ui
     class StageWidget < Qt::Widget
-      slots 'on_stagedChangesView_clicked(const QModelIndex&)',
+      slots 'on_commitButton_clicked()',
+            'on_commitMessageTextEdit_textChanged()',
+            'on_stagedChangesView_clicked(const QModelIndex&)',
             'on_stagedChangesView_doubleClicked(const QModelIndex&)',
             'on_unstagedChangesView_clicked(const QModelIndex&)',
             'on_unstagedChangesView_doubleClicked(const QModelIndex&)'
@@ -31,10 +33,16 @@ module Kitten
         @ui.unstagedChangesView.model = @unstaged_files_model
       end
 
-      def reload()
-        @staged_files_model.reset
-        @unstaged_files_model.reset
-        clear_change_view
+      def on_commitButton_clicked()
+        message = @ui.commitMessageTextEdit.to_plain_text
+        repository.commit(message)
+
+        @ui.commitMessageTextEdit.clear
+        reload
+      end
+
+      def on_commitMessageTextEdit_textChanged()
+        @ui.commitButton.enabled = @ui.commitMessageTextEdit.to_plain_text
       end
 
       def on_stagedChangesView_clicked(index)
@@ -65,6 +73,12 @@ module Kitten
         new_index = @staged_files_model.map_to_index(status_file)
         @ui.stagedChangesView.current_index = new_index
         show_file_status(status_file)
+      end
+
+      def reload()
+        @staged_files_model.reset
+        @unstaged_files_model.reset
+        clear_change_view
       end
 
       attr_accessor :repository
