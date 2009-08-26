@@ -10,41 +10,58 @@ end
 
 module Kitten
   module Ui
-    class MainWindow < KDE::MainWindow
-      slots 'on_action_Open_triggered()',
-            'on_action_Reload_triggered()'
+    class MainWindow < KDE::XmlGuiWindow
+      slots 'open()',
+            'reload()'
 
-      def createActions()
-        @ui.action_Quit.connect(SIGNAL :triggered) { $kapp.quit }
+      def setupActions()
+        KDE::StandardAction::quit($kapp, SLOT('quit()'), actionCollection);
+
+        open_repo_action = KDE::Action.new(self) do |a|
+          a.text = i18n("Open repository")
+          a.icon = KDE::Icon.new('folder-open')
+          # TODO: make setting shortcuts work
+          #a.shortcut = Qt::Key_F5
+        end
+        actionCollection.add_action('repository_open', open_repo_action)
+        connect(open_repo_action, SIGNAL('triggered(bool)'), self, SLOT('open()'))
+
+        reload_repo_action = KDE::Action.new(self) do |a|
+          a.text = i18n("Reload repository")
+          a.icon = KDE::Icon.new('view-refresh')
+          # TODO: make setting shortcuts work
+          #a.shortcut = Qt::Key_F5
+        end
+        actionCollection.add_action('repository_reload', reload_repo_action)
+        connect(reload_repo_action, SIGNAL('triggered(bool)'), self, SLOT('reload()'))
       end
 
-      def createUi()
+      def setupUi()
         return if @ui
 
         @ui = Ui_MainWindow.new
-        @ui.setup_ui(self)
+        @ui.setupUi(self)
+
+        setupActions
+
+        setupGUI
       end
 
       def initialize(*args)
         super {}
 
-        create_ui
-        create_actions
+        setupUi
 
         yield(self) if block_given?
       end
 
-      def on_action_Open_triggered()
+      def open()
         repos_dialog = RepositoriesDialog.new(self)
         repos_dialog.exec
         if repos_dialog.result == Qt::Dialog::Accepted
           path = repos_dialog.selected_repository_path
           self.repository = path
         end
-      end
-
-      def on_action_Reload_triggered()
-        reload
       end
 
       def reload()
