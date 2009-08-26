@@ -8,6 +8,8 @@ module Kitten
       ColumnName = {:path => 'Path'}
       ColumnMethod = {:path => :path}
 
+      slots 'reset()'
+
       # status can be any of
       #   :all for all of the files
       #
@@ -28,6 +30,8 @@ module Kitten
         @@deleted_icon = Qt::Icon.new(':/icons/16x16/status/git-file-deleted')
         @@modified_icon = Qt::Icon.new(':/icons/16x16/status/git-file-modified')
         @@untracked_icon = Qt::Icon.new(':/icons/16x16/status/git-file-untracked')
+
+        connect(repository.qt, SIGNAL('stageChanged()'), self, SLOT('reset()'))
 
         load_files
       end
