@@ -47,7 +47,7 @@ module Kitten
       def on_stagedChangesView_doubleClicked(index)
         status_file = @staged_files_model.map_to_status_file(index)
         repository.unstage_file(status_file.path)
-        reload
+
         new_index = @unstaged_files_model.map_to_index(status_file)
         @ui.unstagedChangesView.current_index = new_index
         show_file_status(status_file)
@@ -62,7 +62,7 @@ module Kitten
       def on_unstagedChangesView_doubleClicked(index)
         status_file = @unstaged_files_model.map_to_status_file(index)
         repository.stage_file(status_file.path)
-        reload
+
         new_index = @staged_files_model.map_to_index(status_file)
         @ui.stagedChangesView.current_index = new_index
         show_file_status(status_file)
