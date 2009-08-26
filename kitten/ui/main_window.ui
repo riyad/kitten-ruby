@@ -50,31 +50,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>640</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menu_File">
-    <property name="title">
-     <string>&amp;File</string>
-    </property>
-    <addaction name="action_Quit"/>
-   </widget>
-   <widget class="QMenu" name="menuRe_pository">
-    <property name="title">
-     <string>Re&amp;pository</string>
-    </property>
-    <addaction name="action_Open"/>
-    <addaction name="action_Reload"/>
-   </widget>
-   <addaction name="menu_File"/>
-   <addaction name="menuRe_pository"/>
-  </widget>
   <action name="action_Quit">
    <property name="text">
     <string>&amp;Quit</string>
