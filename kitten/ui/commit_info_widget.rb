@@ -1,5 +1,5 @@
 
-require File.join(File.dirname(__FILE__), 'ui_commit_widget')
+require File.join(File.dirname(__FILE__), 'ui_commit_info_widget')
 
 module Kitten
   module Ui
@@ -7,7 +7,7 @@ module Kitten
       def initialize(*args)
         super {}
 
-        @ui = Ui_CommitWidget.new
+        @ui = Ui_CommitInfoWidget.new
         @ui.setup_ui(self)
 
         yield(self) if block_given?
