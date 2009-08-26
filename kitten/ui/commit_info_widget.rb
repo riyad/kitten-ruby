@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'ui_commit_widget')
 
 module Kitten
   module Ui
-    class CommitWidget < Qt::Widget
+    class CommitInfoWidget < Qt::Widget
       def initialize(*args)
         super {}
 
