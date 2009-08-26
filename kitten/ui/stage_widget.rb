@@ -1,13 +1,16 @@
 
 require File.join(File.dirname(__FILE__), '../models/git_file_status_model')
+require File.join(File.dirname(__FILE__), 'commit_widget')
 require File.join(File.dirname(__FILE__), 'ui_stage_widget')
+
+class Ui_StageWidget
+  CommitWidget = Kitten::Ui::CommitWidget
+end
 
 module Kitten
   module Ui
     class StageWidget < Qt::Widget
-      slots 'enableCommit()',
-            'on_commitButton_clicked()',
-            'on_stagedChangesView_clicked(const QModelIndex&)',
+      slots 'on_stagedChangesView_clicked(const QModelIndex&)',
             'on_stagedChangesView_doubleClicked(const QModelIndex&)',
             'on_unstagedChangesView_clicked(const QModelIndex&)',
             'on_unstagedChangesView_doubleClicked(const QModelIndex&)'
@@ -15,8 +18,6 @@ module Kitten
       def createUi()
         @ui = Ui_StageWidget.new
         @ui.setup_ui(self)
-
-        connect(@ui.commitMessageTextEdit, SIGNAL('textChanged()'), self, SLOT('enableCommit()'))
       end
 
       def initialize(*args)
@@ -34,15 +35,7 @@ module Kitten
         @unstaged_files_model = Kitten::Models::GitFileStatusModel.new(repository, :unstaged, self)
         @ui.unstagedChangesView.model = @unstaged_files_model
 
-        enableCommit
-      end
-
-      def on_commitButton_clicked()
-        message = @ui.commitMessageTextEdit.to_plain_text
-        repository.commit(message)
-
-        @ui.commitMessageTextEdit.clear
-        reload
+        @ui.commitWidget.repository = repository
       end
 
       def on_stagedChangesView_clicked(index)
@@ -78,8 +71,8 @@ module Kitten
       def reload()
         @staged_files_model.reset
         @unstaged_files_model.reset
+        @ui.commitWidget.reload
         clear_change_view
-        enable_commit
       end
 
       attr_accessor :repository
@@ -93,19 +86,6 @@ module Kitten
       def clearChangeView()
         @ui.diffDescription.title = ""
         @ui.diffBrowser.clear
-      end
-
-      def enableCommit()
-        if @staged_files_model.rowCount == 0
-          @ui.commitStatusLabel.text = "No files staged"
-          @ui.commitButton.enabled = false
-        elsif @ui.commitMessageTextEdit.to_plain_text.empty?
-          @ui.commitStatusLabel.text = "No commit message"
-          @ui.commitButton.enabled = false
-        else
-          @ui.commitStatusLabel.text = ""
-          @ui.commitButton.enabled = true
-        end
       end
 
       def showFileStatus(status_file)

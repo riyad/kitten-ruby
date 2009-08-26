@@ -141,66 +141,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="layoutWidget">
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="2" column="0">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="2" column="2">
-         <widget class="QPushButton" name="commitButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Commit</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" colspan="3">
-         <widget class="KTextEdit" name="commitMessageTextEdit">
-          <property name="lineWrapMode">
-           <enum>QTextEdit::NoWrap</enum>
-          </property>
-          <property name="acceptRichText">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="3">
-         <widget class="QLabel" name="label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Commit message:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="commitStatusLabel">
-          <property name="styleSheet">
-           <string>color: rgb(255, 0, 0);</string>
-          </property>
-          <property name="text">
-           <string>No commit message</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+      <widget class="CommitWidget" name="commitWidget" native="true"/>
      </widget>
     </widget>
    </item>
@@ -208,14 +149,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KTextBrowser</class>
    <extends>QTextBrowser</extends>
    <header>ktextbrowser.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CommitWidget</class>
+   <extends>QWidget</extends>
+   <header>commitwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
