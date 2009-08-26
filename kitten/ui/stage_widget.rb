@@ -33,6 +33,8 @@ module Kitten
 
         @unstaged_files_model = Kitten::Models::GitFileStatusModel.new(repository, :unstaged, self)
         @ui.unstagedChangesView.model = @unstaged_files_model
+
+        enableCommit
       end
 
       def on_commitButton_clicked()
@@ -94,8 +96,16 @@ module Kitten
       end
 
       def enableCommit()
-        @ui.commitButton.enabled = @staged_files_model.rowCount > 0 &&
-                                   @ui.commitMessageTextEdit.to_plain_text
+        if @staged_files_model.rowCount == 0
+          @ui.commitStatusLabel.text = "No files staged"
+          @ui.commitButton.enabled = false
+        elsif @ui.commitMessageTextEdit.to_plain_text.empty?
+          @ui.commitStatusLabel.text = "No commit message"
+          @ui.commitButton.enabled = false
+        else
+          @ui.commitStatusLabel.text = ""
+          @ui.commitButton.enabled = true
+        end
       end
 
       def showFileStatus(status_file)
