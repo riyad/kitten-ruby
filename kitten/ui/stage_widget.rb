@@ -5,8 +5,8 @@ require File.join(File.dirname(__FILE__), 'ui_stage_widget')
 module Kitten
   module Ui
     class StageWidget < Qt::Widget
-      slots 'on_commitButton_clicked()',
-            'on_commitMessageTextEdit_textChanged()',
+      slots 'enableCommit()',
+            'on_commitButton_clicked()',
             'on_stagedChangesView_clicked(const QModelIndex&)',
             'on_stagedChangesView_doubleClicked(const QModelIndex&)',
             'on_unstagedChangesView_clicked(const QModelIndex&)',
@@ -15,6 +15,8 @@ module Kitten
       def createUi()
         @ui = Ui_StageWidget.new
         @ui.setup_ui(self)
+
+        connect(@ui.commitMessageTextEdit, SIGNAL('textChanged()'), self, SLOT('enableCommit()'))
       end
 
       def initialize(*args)
@@ -39,10 +41,6 @@ module Kitten
 
         @ui.commitMessageTextEdit.clear
         reload
-      end
-
-      def on_commitMessageTextEdit_textChanged()
-        @ui.commitButton.enabled = @ui.commitMessageTextEdit.to_plain_text
       end
 
       def on_stagedChangesView_clicked(index)
@@ -79,6 +77,7 @@ module Kitten
         @staged_files_model.reset
         @unstaged_files_model.reset
         clear_change_view
+        enable_commit
       end
 
       attr_accessor :repository
@@ -88,6 +87,16 @@ module Kitten
       end
 
       private
+
+      def clearChangeView()
+        @ui.diffDescription.title = ""
+        @ui.diffBrowser.clear
+      end
+
+      def enableCommit()
+        @ui.commitButton.enabled = @staged_files_model.rowCount > 0 &&
+                                   @ui.commitMessageTextEdit.to_plain_text
+      end
 
       def showFileStatus(status_file)
         if status_file.untracked?
@@ -113,11 +122,6 @@ module Kitten
 
         @ui.diffDescription.title = type.name
         @ui.diffBrowser.text = data
-      end
-
-      def clearChangeView()
-        @ui.diffDescription.title = ""
-        @ui.diffBrowser.clear
       end
     end
   end
