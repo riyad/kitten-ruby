@@ -10,6 +10,8 @@ module Kitten
       ColumnName = {:summary => 'Summary', :author => 'Author', :author_date => 'Date', :id => 'Id'}
       ColumnMethod = {:summary => :summary, :author => :author, :author_date => :author_date, :id => :sha}
 
+      slots 'reset()'
+
       def initialize(repository, parent = nil)
         super(parent)
         @repository = repository
@@ -18,6 +20,8 @@ module Kitten
         @@branch_icon = Qt::Icon.new(':/icons/16x16/actions/git-branch')
         @@commit_icon = Qt::Icon.new(':/icons/16x16/actions/git-commit')
         @@merge_icon = Qt::Icon.new(':/icons/16x16/actions/git-merge')
+
+        connect(repository.qt, SIGNAL('logChanged()'), self, SLOT('reset()'))
       end
 
       def columnCount(parent = nil)
