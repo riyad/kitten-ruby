@@ -32,7 +32,13 @@ module Kitten
 
       attr_accessor :repository
       def setRepository(repo)
+        # TODO: disconnect old repo
+        #self.disconnect(@repository.qt)
+
         @repository = repo
+
+        connect(@repository.qt, SIGNAL('stageChanged()'), self, SLOT('enableCommit()'))
+
         reload
       end
 
