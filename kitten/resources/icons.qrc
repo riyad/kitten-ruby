@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="/" >
+    <file>../../icons/16x16/status/git-file-unstaged.png</file>
+    <file>../../icons/16x16/status/git-file-staged.png</file>
     <file>../../icons/16x16/status/git-file-added.png</file>
     <file>../../icons/16x16/status/git-file-deleted.png</file>
     <file>../../icons/16x16/status/git-file-modified.png</file>
