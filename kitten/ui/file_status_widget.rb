@@ -34,6 +34,18 @@ module Kitten
         reload
       end
 
+      attr_accessor :repository
+      def setRepository(repo)
+        # TODO: disconnect old repo
+        #self.disconnect(@repository.qt)
+
+        @repository = repo
+
+        connect(@repository.qt, SIGNAL('logChanged()'), self, SLOT('clear()'))
+
+        reload
+      end
+
       protected
 
       def isBinary()

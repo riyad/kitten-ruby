@@ -37,6 +37,7 @@ module Kitten
         @unstaged_files_model = Kitten::Models::GitFileStatusModel.new(repository, :unstaged, self)
         @ui.unstagedChangesView.model = @unstaged_files_model
 
+        @ui.fileStatusWidget.repository = repository
         @ui.commitWidget.repository = repository
       end
 
@@ -52,7 +53,6 @@ module Kitten
 
         new_index = @unstaged_files_model.map_to_index(status_file)
         @ui.unstagedChangesView.current_index = new_index
-        #@ui.fileStatusWidget.file_status = status_file
       end
 
       def on_unstagedChangesView_clicked(index)
@@ -67,14 +67,13 @@ module Kitten
 
         new_index = @staged_files_model.map_to_index(status_file)
         @ui.stagedChangesView.current_index = new_index
-        #@ui.fileStatusWidget.file_status = status_file
       end
 
       def reload()
         @staged_files_model.reset
         @unstaged_files_model.reset
-        @ui.commitWidget.reload
         @ui.fileStatusWidget.reload
+        @ui.commitWidget.reload
       end
 
       attr_accessor :repository
