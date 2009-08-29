@@ -9,8 +9,14 @@ module Kitten
       slots 'clear()'
 
       def clear()
-        @ui.typeLabel.text = ""
-        @ui.contentBrowser.text = ""
+        @ui.stageIconLabel.pixmap = ''
+        @ui.stageLabel.text = ''
+        @ui.statusIconLabel.text = ''
+        @ui.statusLabel.text = ''
+        @ui.mimeTypeIconLabel.text = ''
+        @ui.filePathLabel.text = ''
+        @ui.fileInfoLabel.text = ''
+        @ui.contentView.html = ''
         @byte_array = nil
       end
 
@@ -83,11 +89,10 @@ module Kitten
 
       def format(data)
         data = CGI.escapeHTML(data)
-        data.gsub!(/^(diff|index|(\+|-){3}).*\n/, '')
+        data.gsub!(/^((diff|index|\+\+\+|---).*\n)/, '')
         data.gsub!(/^(\+.*)/, '<span class="add">\\1</span>')
         data.gsub!(/^(-.*)/, '<span class="remove">\\1</span>')
         data.gsub!(/^(@@.*)/, '<span class="info">\\1</span>')
-        data.gsub!(/\n/, "<br/>")
         data
       end
 
@@ -97,20 +102,13 @@ module Kitten
                 else
                   format(data())
                 end
-
-        @ui.typeLabel.text = mimeType.name
         data = <<-END
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<?xml version="1.0" ?>
 <html>
 <head>
-  <meta name="qrichtext" content="1" />
   <style type="text/css">
-    body {
+    pre {
       font-family: 'Droid Sans Mono';
-      font-size: 10pt;
-      font-weight: 400;
-      font-style: normal;
-      white-space: normal;
     }
     .add { color: green; }
     .info { color: blue; }
@@ -119,11 +117,26 @@ module Kitten
   </style>
 </head>
 <body>
-#{data}
+<pre>#{data}</pre>
 </body>
 </html>
         END
-        @ui.contentBrowser.html = data
+        if file_status.staged?
+          stage = 'Staged'
+          stageIcon = Qt::Icon.new(':/icons/16x16/status/git-file-staged')
+        else
+          stage = 'Unstaged'
+          stageIcon = Qt::Icon.new(':/icons/16x16/status/git-file-unstaged')
+        end
+        status = file_status.state.id2name
+        @ui.stageIconLabel.pixmap = stageIcon.pixmap(16)
+        @ui.stageLabel.text = stage
+        @ui.statusIconLabel.pixmap = Qt::Icon.new(":/icons/16x16/status/git-file-#{status}").pixmap(16)
+        @ui.statusLabel.text = status.gsub(/(.)(.*)/) { "#{$1.upcase}#{$2}" }
+        @ui.mimeTypeIconLabel.pixmap = KDE::Icon.new(mime_type.icon_name).pixmap(32)
+        @ui.filePathLabel.text = file_status.path
+        @ui.fileInfoLabel.text = "#{file_status.blob.to_s.size} Bytes"
+        @ui.contentView.html = data
       end
     end
   end
