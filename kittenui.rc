@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui name="kitten"
+     version="1"
+     xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
+                         http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd" >
+
+  <MenuBar>
+    <Menu name="repository" >
+      <text>&amp;Repository</text>
+      <Action name="repository_open" />
+      <Action name="repository_reload" />
+    </Menu>
+    <Menu name="commit" >
+      <text>&amp;Commit</text>
+      <Action name="file_stage" />
+      <Action name="file_unstage" />
+      <!--Action name="file_revert" /-->
+      <Separator />
+      <Action name="commit" />
+    </Menu>
+    <!--Menu name="merge" >
+      <text>&amp;Merge</text>
+    </Menu-->
+    <!--Menu name="remote" >
+      <text>&amp;Remote</text>
+      <Action name="remote_fetch" />
+      <Action name="remote_push" />
+    </Menu-->
+  </MenuBar>
+
+  <ToolBar name="mainToolBar" >
+    <text>Main Toolbar</text>
+    <Action name="repository_reload" />
+    <Separator />
+    <Action name="commit" />
+  </ToolBar>
+
+</gui>
