@@ -12,10 +12,17 @@ end
 module Kitten
   module Ui
     class StageWidget < Qt::Widget
-      slots 'on_stagedChangesView_clicked(const QModelIndex&)',
+      slots 'commit()',
+            'on_stagedChangesView_clicked(const QModelIndex&)',
             'on_stagedChangesView_doubleClicked(const QModelIndex&)',
             'on_unstagedChangesView_clicked(const QModelIndex&)',
-            'on_unstagedChangesView_doubleClicked(const QModelIndex&)'
+            'on_unstagedChangesView_doubleClicked(const QModelIndex&)',
+            'stageFile()',
+            'unstageFile()'
+
+      def commit()
+        @ui.commitWidget.commit
+      end
 
       def createUi()
         @ui = Ui_StageWidget.new
@@ -48,11 +55,7 @@ module Kitten
       end
 
       def on_stagedChangesView_doubleClicked(index)
-        status_file = @staged_files_model.map_to_status_file(index)
-        repository.unstage_file(status_file.path)
-
-        new_index = @unstaged_files_model.map_to_index(status_file)
-        @ui.unstagedChangesView.current_index = new_index
+        unstage_file
       end
 
       def on_unstagedChangesView_clicked(index)
@@ -62,11 +65,31 @@ module Kitten
       end
 
       def on_unstagedChangesView_doubleClicked(index)
-        status_file = @unstaged_files_model.map_to_status_file(index)
-        repository.stage_file(status_file.path)
+        stage_file
+      end
 
-        new_index = @staged_files_model.map_to_index(status_file)
-        @ui.stagedChangesView.current_index = new_index
+      def stageFile()
+        indexes = @ui.unstagedChangesView.selected_indexes
+        unless indexes.empty?
+          index = indexes.first
+          status_file = @unstaged_files_model.map_to_status_file(index)
+          repository.stage_file(status_file.path)
+
+          new_index = @staged_files_model.map_to_index(status_file)
+          @ui.stagedChangesView.current_index = new_index
+        end
+      end
+
+      def unstageFile()
+        indexes = @ui.stagedChangesView.selected_indexes
+        unless indexes.empty?
+          index = indexes.first
+          status_file = @staged_files_model.map_to_status_file(index)
+          repository.unstage_file(status_file.path)
+
+          new_index = @unstaged_files_model.map_to_index(status_file)
+          @ui.unstagedChangesView.current_index = new_index
+        end
       end
 
       def reload()
