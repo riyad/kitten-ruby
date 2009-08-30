@@ -57,6 +57,7 @@ module Kitten
           enable_commit
         end
 
+        clear
         reload
       end
 
