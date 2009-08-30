@@ -8,6 +8,11 @@ module Kitten
             'enableCommit()',
             'on_commitButton_clicked()'
 
+      def clear()
+        @ui.commitMessageTextEdit.clear
+        @status = nil
+      end
+
       def commit()
         if error
             KDE::MessageBox::sorry(self, i18n("You can't commit yet, because you have #{@error_message}."))
@@ -17,7 +22,7 @@ module Kitten
         message = @ui.commitMessageTextEdit.to_plain_text
         repository.commit(message)
 
-        @ui.commitMessageTextEdit.clear
+        clear
         reload
       end
 
@@ -47,7 +52,10 @@ module Kitten
 
         @repository = repo
 
-        connect(@repository.qt, SIGNAL('stageChanged()'), self, SLOT('enableCommit()'))
+        connect(@repository.qt, SIGNAL('stageChanged()')) do
+          @status = nil
+          enable_commit
+        end
 
         reload
       end
@@ -56,7 +64,7 @@ module Kitten
 
       def error()
         case
-        when repository.status.staged.empty?
+        when repo_status.staged.empty?
           @error_message = 'no files staged'
           :no_staged_files
         when @ui.commitMessageTextEdit.to_plain_text.empty?
@@ -71,6 +79,12 @@ module Kitten
       def enableCommit()
         @ui.commitErrorLabel.text = error ? "You have #{@error_message}." : nil
         @ui.commitButton.enabled = !error
+      end
+
+      private
+
+      def repoStatus()
+        @status ||= repository.status
       end
     end
   end
