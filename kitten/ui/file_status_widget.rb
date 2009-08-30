@@ -9,11 +9,12 @@ module Kitten
       slots 'clear()'
 
       def clear()
-        @ui.stageIconLabel.pixmap = ''
+        empty_pixmap = Qt::Pixmap.new
+        @ui.stageIconLabel.pixmap = empty_pixmap
         @ui.stageLabel.text = ''
-        @ui.statusIconLabel.text = ''
+        @ui.statusIconLabel.pixmap = empty_pixmap
         @ui.statusLabel.text = ''
-        @ui.mimeTypeIconLabel.text = ''
+        @ui.mimeTypeIconLabel.pixmap = empty_pixmap
         @ui.filePathLabel.text = ''
         @ui.fileInfoLabel.text = ''
         @ui.contentView.html = ''
@@ -31,13 +32,13 @@ module Kitten
 
       def reload()
         clear
-        showFileStatus if file_status
       end
 
       attr_accessor :file_status
       def setFileStatus(file_status)
         @file_status = file_status
-        reload
+        clear
+        showFileStatus
       end
 
       attr_accessor :repository
@@ -59,23 +60,23 @@ module Kitten
       end
 
       def byteArray()
-        @byte_array ||= Qt::ByteArray.new(data)
+        @byte_array ||= Qt::ByteArray.new(data(:blob))
       end
 
-      def data()
+      def data(type = type())
         if type == :blob
-          file_status.blob.to_s
+          if file_status.blob.respond_to? :contents
+            file_status.blob.contents
+          else
+            file_status.blob
+          end
         else
-          file_status.diff.to_s
+          file_status.diff.patch
         end
       end
 
       def mimeType()
-        if type == :blob
-          KDE::MimeType.find_by_name_and_content(file_status.path, byteArray)
-        else
-          KDE::MimeType.find_by_content(byteArray)
-        end
+        KDE::MimeType.find_by_name_and_content(file_status.path, byteArray)
       end
 
       # returns :blob or :diff
@@ -89,16 +90,17 @@ module Kitten
 
       def format(data)
         data = CGI.escapeHTML(data)
-        data.gsub!(/^((diff|index|\+\+\+|---).*\n)/, '')
+        data.gsub!(/^((diff|index|new|\+\+\+|---).*\n)/, '')
         data.gsub!(/^(\+.*)/, '<span class="add">\\1</span>')
         data.gsub!(/^(-.*)/, '<span class="remove">\\1</span>')
         data.gsub!(/^(@@.*)/, '<span class="info">\\1</span>')
+        data.gsub!(/^(\\.*)/, '<span class="warning">\\1</span>')
         data
       end
 
       def showFileStatus()
         data = if binary?
-                  '<span class="warning">Binary file (content not shown)</span>'
+                  'Binary file (content not shown)'
                 else
                   format(data())
                 end
@@ -113,7 +115,7 @@ module Kitten
     .add { color: green; }
     .info { color: blue; }
     .remove { color: red; }
-    .warning { color: yellow; }
+    .warning { color: grey; }
   </style>
 </head>
 <body>
@@ -124,9 +126,11 @@ module Kitten
         if file_status.staged?
           stage = 'Staged'
           stageIcon = Qt::Icon.new(':/icons/16x16/status/git-file-staged')
+          blob = file_status.blob(:index).contents
         else
           stage = 'Unstaged'
           stageIcon = Qt::Icon.new(':/icons/16x16/status/git-file-unstaged')
+          blob = file_status.blob(:file)
         end
         status = file_status.state.id2name
         @ui.stageIconLabel.pixmap = stageIcon.pixmap(16)
@@ -135,7 +139,7 @@ module Kitten
         @ui.statusLabel.text = status.gsub(/(.)(.*)/) { "#{$1.upcase}#{$2}" }
         @ui.mimeTypeIconLabel.pixmap = KDE::Icon.new(mime_type.icon_name).pixmap(32)
         @ui.filePathLabel.text = file_status.path
-        @ui.fileInfoLabel.text = "#{file_status.blob.to_s.size} Bytes"
+        @ui.fileInfoLabel.text = "#{blob.size} Bytes"
         @ui.contentView.html = data
       end
     end
