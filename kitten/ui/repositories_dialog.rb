@@ -1,4 +1,5 @@
 
+require File.join(File.dirname(__FILE__), 'clone_repository_dialog')
 require File.join(File.dirname(__FILE__), 'ui_repositories_dialog')
 
 module Kitten
@@ -6,6 +7,7 @@ module Kitten
     class RepositoriesDialog < Qt::Dialog
       slots 'on_repositoriesListWidget_currentTextChanged(const QString&)',
             'on_addButton_clicked()',
+            'on_cloneButton_clicked()',
             'on_removeButton_clicked()'
 
       def accept()
@@ -75,6 +77,14 @@ module Kitten
           else
             KDE::MessageBox::sorry(self, i18n("The selected directory does not contain a Git repository."))
           end
+        end
+      end
+
+      def on_cloneButton_clicked()
+        clone_dialog = Kitten::Ui::CloneRepositoryDialog.new(self)
+        clone_dialog.exec
+        if clone_dialog.result == Qt::Dialog::Accepted
+          add_repository(clone_dialog.repository_path)
         end
       end
 
