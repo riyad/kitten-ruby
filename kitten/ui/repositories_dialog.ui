@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>694</width>
-    <height>398</height>
+    <width>597</width>
+    <height>365</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Repositories</string>
+   <string>Open Repository</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -21,14 +21,18 @@
     <widget class="KListWidgetSearchLine" name="repositorySearchLine"/>
    </item>
    <item row="1" column="0" rowspan="2" colspan="2">
-    <widget class="KListWidget" name="repositoriesListWidget"/>
+    <widget class="KListWidget" name="repositoriesListWidget">
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="1" column="2">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QPushButton" name="newButton">
        <property name="text">
-        <string>Crate new repository ...</string>
+        <string>Crate New Repository ...</string>
        </property>
        <property name="icon">
         <iconset resource="../resources/icons.qrc">
@@ -37,13 +41,26 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="addButton">
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cloneButton">
        <property name="text">
-        <string>Add repository ...</string>
+        <string>Clone Repository ...</string>
        </property>
        <property name="icon">
         <iconset resource="../resources/icons.qrc">
-         <normaloff>:/icons/16x16/actions/list-add.png</normaloff>:/icons/16x16/actions/list-add.png</iconset>
+         <normaloff>:/icons/16x16/actions/git-clone.png</normaloff>:/icons/16x16/actions/git-clone.png</iconset>
        </property>
       </widget>
      </item>
@@ -54,11 +71,22 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>78</width>
-         <height>13</height>
+         <width>20</width>
+         <height>40</height>
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="addButton">
+       <property name="text">
+        <string>Add Repository to List ...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources/icons.qrc">
+         <normaloff>:/icons/16x16/actions/list-add.png</normaloff>:/icons/16x16/actions/list-add.png</iconset>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="removeButton">
@@ -66,7 +94,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Remove repository</string>
+        <string>Remove Repository from List</string>
        </property>
        <property name="icon">
         <iconset resource="../resources/icons.qrc">
@@ -108,7 +136,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Open selected repository</string>
+      <string>Open Selected Repository</string>
      </property>
      <property name="icon">
       <iconset resource="../resources/icons.qrc">
