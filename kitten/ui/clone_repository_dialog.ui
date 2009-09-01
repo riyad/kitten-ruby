@@ -96,6 +96,7 @@ p, li { white-space: pre-wrap; }
             </property>
             <property name="text">
              <string>This is the directory into which the above repository will be cloned.
+
 Note: This directory must be empty.</string>
             </property>
             <property name="alignment">
@@ -218,7 +219,7 @@ Depending on the size of the repository this can take from a few seconds up to s
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Cloning is finished.</string>
+          <string>Cloning has finished.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
