@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="/" >
+    <file>../../icons/32x32/status/finished.png</file>
+    <file>../../icons/16x16/actions/dialog-ok.png</file>
+    <file>../../icons/64x64/status/cloning.png</file>
     <file>../../icons/16x16/status/git-file-unstaged.png</file>
     <file>../../icons/16x16/status/git-file-staged.png</file>
     <file>../../icons/16x16/status/git-file-added.png</file>
