@@ -5,13 +5,9 @@ module Kitten
   module Ui
     class CloneRepositoryDialog < Qt::Dialog
       slots 'on_cloneUrlRequester_textChanged(const QString&)',
-            'on_localUrlRequester_textChanged(const QString&)'
-
-      def accept()
-        clone
-
-        super
-      end
+            'on_cloneButton_clicked()',
+            'on_localUrlRequester_textChanged(const QString&)',
+            'on_stackedWidget_currentChanged(int)'
 
       def initialize(*args)
         super
@@ -26,8 +22,32 @@ module Kitten
         enable_clone
       end
 
+      def on_cloneButton_clicked()
+        enable_finish
+        @ui.stackedWidget.current_index = 1
+      end
+
       def on_localUrlRequester_textChanged(text)
         enable_clone
+      end
+
+      def on_stackedWidget_currentChanged(index)
+        case index
+        when 0
+          enable_clone
+          enable_finish
+        when 1
+          # update the view
+          repaint
+          KDE::Application.process_events
+
+          # do the actual cloning
+          clone
+
+          # show that the cloning has finished
+          @finished = true
+          enable_finish
+        end
       end
 
       def repositoryPath()
@@ -41,6 +61,7 @@ module Kitten
         path = @ui.localUrlRequester.url.path_or_url(KDE::Url::RemoveTrailingSlash)
         FileUtils.rm_r(path)
 
+        # extracts the repo name from the path
         name = path.slice!(%r{#{File::Separator}[^#{File::Separator}]+$})
         name = name[1..-1] if name.start_with?(File::Separator)
 
@@ -76,6 +97,12 @@ module Kitten
         end
         @ui.errorLabel.text = error_message
         @ui.cloneButton.enabled =  enabled
+      end
+
+      def enableFinish()
+        @ui.cloningFinishedIconLabel.visible = @finished
+        @ui.cloningFinishedLabel.visible = @finished
+        @ui.finishedButton.enabled = @finished
       end
     end
   end
