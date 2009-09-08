@@ -123,7 +123,7 @@ module Kitten
 </body>
 </html>
         END
-        if file_status.staged?
+        if file_status.changes_staged?
           stage = 'Staged'
           stageIcon = Qt::Icon.new(':/icons/16x16/status/git-file-staged')
           blob = file_status.blob(:index).contents

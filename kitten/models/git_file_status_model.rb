@@ -83,10 +83,13 @@ module Kitten
       end
 
       def loadFiles()
-        if @status == :all
-          @files = @repository.status.to_a
+        case @status
+        when :staged
+          @files = @repository.status.staged_changes
+        when :unstaged
+          @files = @repository.status.unstaged_changes
         else
-          @files = @repository.status.send(@status)
+          @files = @repository.status.to_a
         end
       end
 

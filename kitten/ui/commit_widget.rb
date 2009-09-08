@@ -65,7 +65,7 @@ module Kitten
 
       def error()
         case
-        when repo_status.staged.empty?
+        when repo_status.staged_changes.empty?
           @error_message = 'no files staged'
           :no_staged_files
         when @ui.commitMessageTextEdit.to_plain_text.empty?
