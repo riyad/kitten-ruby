@@ -126,12 +126,20 @@ module Kitten
         if file_status.changes_staged?
           stage = 'Staged'
           stageIcon = Qt::Icon.new(':/icons/16x16/status/git-file-staged')
-          blob = file_status.blob(:index).contents
         else
           stage = 'Unstaged'
           stageIcon = Qt::Icon.new(':/icons/16x16/status/git-file-unstaged')
-          blob = file_status.blob(:file)
         end
+        unless binary?
+          if file_status.untracked?
+            file_info = "#{file_status.blob.lines.to_a.size} lines"
+          else
+            file_info = %Q{<html><body><span style="color: green;">+#{file_status.diff.insertions}</span> <span style="color: red;">-#{file_status.diff.deletions}</span> lines</body></html>}
+          end
+        else
+          file_info = "#{byte_array.size} Bytes"
+        end
+
         status = file_status.state.id2name
         @ui.stageIconLabel.pixmap = stageIcon.pixmap(16)
         @ui.stageLabel.text = stage
@@ -139,7 +147,7 @@ module Kitten
         @ui.statusLabel.text = status.gsub(/(.)(.*)/) { "#{$1.upcase}#{$2}" }
         @ui.mimeTypeIconLabel.pixmap = KDE::Icon.new(mime_type.icon_name).pixmap(32)
         @ui.filePathLabel.text = file_status.path
-        @ui.fileInfoLabel.text = "#{blob.size} Bytes"
+        @ui.fileInfoLabel.text = file_info
         @ui.contentView.html = data
       end
     end
