@@ -94,7 +94,7 @@ module Kitten
       end
 
       def map_to_index(status_file)
-        row = @files.index { |sf| sf.path == status_file.path && (sf.sha_repo == status_file.sha_repo if status_file.sha_repo) }
+        row = @files.index { |sf| sf.path == status_file.path }
         index(row, 0)
       end
 
