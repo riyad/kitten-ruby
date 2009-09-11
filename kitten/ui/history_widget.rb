@@ -65,7 +65,7 @@ module Kitten
       private
 
       def showCurrentBranch()
-        current_branch_index = @ui.branchComboBox.find_text(repository.current_branch)
+        current_branch_index = @ui.branchComboBox.find_text(repository.head.name)
         @ui.branchComboBox.current_index = current_branch_index
       end
     end
