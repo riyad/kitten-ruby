@@ -100,7 +100,7 @@ module Kitten
 
       attr_accessor :repository
       def setRepository(repo_or_path)
-        repo_or_path = Git.open(repo_or_path) unless repo_or_path.is_a?(Git::Base)
+        repo_or_path = Grit::Repo.new(repo_or_path) unless repo_or_path.is_a?(Grit::Repo)
         @repository = repo_or_path
 
         @ui.historyWidget.repository = repository
