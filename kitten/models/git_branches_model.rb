@@ -40,7 +40,7 @@ module Kitten
       end
 
       def loadBranches()
-        @branches = @repository.branches.local
+        @branches = @repository.heads
       end
 
       def reset()

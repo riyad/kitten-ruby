@@ -6,16 +6,16 @@ require 'Qt4'
 module Kitten
   module Models
     class GitHistoryModel < Qt::AbstractTableModel
-      Columns = [:summary, :author, :author_date]
-      ColumnName = {:summary => 'Summary', :author => 'Author', :author_date => 'Date', :id => 'Id'}
-      ColumnMethod = {:summary => :summary, :author => :author, :author_date => :author_date, :id => :sha}
+      Columns = [:summary, :author, :authored_date]
+      ColumnName = {:summary => 'Summary', :author => 'Author', :authored_date => 'Date', :id => 'Id'}
+      ColumnMethod = {:summary => :short_message, :author => :author, :authored_date => :authored_date, :id => :sha}
 
       slots 'reset()'
 
       def initialize(repository, parent = nil)
         super(parent)
         @repository = repository
-        self.branch = @repository.current_branch
+        self.branch = @repository.head
 
         @@branch_icon = Qt::Icon.new(':/icons/16x16/actions/git-branch')
         @@commit_icon = Qt::Icon.new(':/icons/16x16/actions/git-commit')
@@ -45,9 +45,7 @@ module Kitten
 
         commit = map_to_commit(index)
         data = commit.send(ColumnMethod[Columns[index.column()]])
-        if data.is_a?(Git::Author)
-          data = data.name
-        elsif data.is_a?(Date)
+        if data.is_a?(Date)
           data = data.strftime
         else
           data = data.to_s.strip
@@ -88,8 +86,7 @@ module Kitten
       end
 
       def loadCommits()
-        @log = @repository.log(nil).object(@branch.gcommit.sha)
-        @commits = @log.commits
+        @commits = @repository.commits(@branch.name, false)
       end
 
       def reset()
@@ -99,12 +96,13 @@ module Kitten
       end
 
       def rowCount(parent = nil)
-        @log.size
+        @commits.size
       end
 
       attr_accessor :branch
       def setBranch(branch)
-        @branch = @repository.branches[branch.to_s]
+        branch = @repository.get_head(branch.to_s) unless branch.is_a?(Grit::Head)
+        @branch = branch
         reset
       end
     end
