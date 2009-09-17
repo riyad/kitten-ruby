@@ -109,4 +109,13 @@ module Grit
     end
     alias_method :branched_on?, :branched?
   end
+
+  class Diff
+    def deletions
+      diff.split("\n").count { |line| line.start_with?('-') } -1
+    end
+    def insertions
+      diff.split("\n").count { |line| line.start_with?('+') } -1
+    end
+  end
 end
