@@ -20,14 +20,14 @@ module GritRepoQtExtension
 
   # overriden to emit the folowing signals when called:
   # stageChanged
-  def stage_file(*args)
+  def stage_files(*args)
     super
     qt.stageChanged
   end
 
   # overriden to emit the folowing signals when called:
   # stageChanged
-  def unstage_file(*args)
+  def unstage_files(*args)
     super
     qt.stageChanged
   end
@@ -49,6 +49,15 @@ end
 
 module Grit
   class Repo
+    def stage_files(*files)
+      self.git.add({}, *files)
+    end
+
+    def unstage_files(*files)
+      
+      self.git.reset({}, *['HEAD', '--', files].flatten)
+    end
+
     include GritRepoQtExtender
   end
 
