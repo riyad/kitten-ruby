@@ -4,7 +4,7 @@ require 'core_ext/kernel'
 require 'core_ext/module'
 
 require 'rubygems'
-require 'grit'
+require 'lib/grit'
 require 'grit_ext'
 
 require 'korundum4'
