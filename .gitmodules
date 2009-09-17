@@ -1,3 +1,6 @@
 [submodule "lib/git"]
 	path = lib/git
 	url = git://github.com/riyad/ruby-git.git
+[submodule "lib/grit"]
+	path = lib/grit
+	url = git://github.com/riyad/grit.git
