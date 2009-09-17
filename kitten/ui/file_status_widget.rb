@@ -65,13 +65,13 @@ module Kitten
 
       def data(type = type())
         if type == :blob
-          if file_status.blob.respond_to? :contents
-            file_status.blob.contents
+          if file_status.blob.respond_to? :data
+            file_status.blob.data
           else
             file_status.blob
           end
         else
-          file_status.diff.patch
+          file_status.diff.diff
         end
       end
 
@@ -140,7 +140,7 @@ module Kitten
           file_info = "#{byte_array.size} Bytes"
         end
 
-        status = file_status.state.id2name
+        status = file_status.status.id2name
         @ui.stageIconLabel.pixmap = stageIcon.pixmap(16)
         @ui.stageLabel.text = stage
         @ui.statusIconLabel.pixmap = Qt::Icon.new(":/icons/16x16/status/git-file-#{status}").pixmap(16)
