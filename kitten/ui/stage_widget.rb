@@ -73,7 +73,7 @@ module Kitten
         unless indexes.empty?
           index = indexes.first
           status_file = @unstaged_files_model.map_to_status_file(index)
-          repository.stage_file(status_file.path)
+          repository.stage_files(status_file.path)
 
           # set selection on staged file
           new_index = @staged_files_model.map_to_index(status_file)
@@ -90,7 +90,7 @@ module Kitten
         unless indexes.empty?
           index = indexes.first
           status_file = @staged_files_model.map_to_status_file(index)
-          repository.unstage_file(status_file.path)
+          repository.unstage_files(status_file.path)
 
           # set selection on unstaged file
           new_index = @unstaged_files_model.map_to_index(status_file)
