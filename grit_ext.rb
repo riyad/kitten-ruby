@@ -12,7 +12,7 @@ module GritRepoQtExtension
 
   # overriden to emit the folowing signals when called:
   # logChanged, stageChanged
-  def commit(*args)
+  def commit_index(*args)
     super
     qt.logChanged
     qt.stageChanged
