@@ -20,7 +20,7 @@ module Kitten
         end
 
         message = @ui.commitMessageTextEdit.to_plain_text
-        repository.commit(message)
+        repository.commit_index(message)
 
         clear
         reload
