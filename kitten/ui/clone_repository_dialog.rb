@@ -61,12 +61,8 @@ module Kitten
         path = @ui.localUrlRequester.url.path_or_url(KDE::Url::RemoveTrailingSlash)
         FileUtils.rm_r(path)
 
-        # extracts the repo name from the path
-        name = path.slice!(%r{#{File::Separator}[^#{File::Separator}]+$})
-        name = name[1..-1] if name.start_with?(File::Separator)
-
         # TODO: display cloning progress
-        Git.clone(repository, name, :path => path)
+        Grit::Repo.clone(repository, path)
       end
 
       def enableClone()
