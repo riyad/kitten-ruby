@@ -72,7 +72,7 @@ module Kitten
         # make sure the user has not cancelled the file dialog
         if path
           # make sure the directors it is a Git repo
-          if Git.repository?(path)
+          if Grit::Repo.contains_repository?(path)
             add_repository(path)
           else
             KDE::MessageBox::sorry(self, i18n("The selected directory does not contain a Git repository."))
