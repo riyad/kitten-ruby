@@ -32,7 +32,7 @@
      <item>
       <widget class="QPushButton" name="newButton">
        <property name="text">
-        <string>Crate New Repository ...</string>
+        <string>Create &amp;New Repository ...</string>
        </property>
        <property name="icon">
         <iconset resource="../resources/icons.qrc">
@@ -56,7 +56,7 @@
      <item>
       <widget class="QPushButton" name="cloneButton">
        <property name="text">
-        <string>Clone Repository ...</string>
+        <string>&amp;Clone Repository ...</string>
        </property>
        <property name="icon">
         <iconset resource="../resources/icons.qrc">
@@ -80,7 +80,7 @@
      <item>
       <widget class="QPushButton" name="addButton">
        <property name="text">
-        <string>Add Repository to List ...</string>
+        <string>&amp;Add Repository to List ...</string>
        </property>
        <property name="icon">
         <iconset resource="../resources/icons.qrc">
@@ -94,7 +94,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Remove Repository from List</string>
+        <string>&amp;Remove Repository from List</string>
        </property>
        <property name="icon">
         <iconset resource="../resources/icons.qrc">
