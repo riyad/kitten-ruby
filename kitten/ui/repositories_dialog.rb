@@ -8,6 +8,7 @@ module Kitten
       slots 'on_repositoriesListWidget_currentTextChanged(const QString&)',
             'on_addButton_clicked()',
             'on_cloneButton_clicked()',
+            'on_newButton_clicked()',
             'on_removeButton_clicked()'
 
       def accept()
@@ -85,6 +86,21 @@ module Kitten
         clone_dialog.exec
         if clone_dialog.result == Qt::Dialog::Accepted
           add_repository(clone_dialog.repository_path)
+        end
+      end
+
+      def on_newButton_clicked()
+        path = Qt::FileDialog.get_existing_directory(self, i18n("Select a location for the new Git repository"))
+
+        # make sure the user has not cancelled the file dialog
+        if path
+          # make sure the directory exists and is empty
+          if Dir.entries(path) == %w{. ..}
+            Grit::Repo.init(path)
+            add_repository(path)
+          else
+            KDE::MessageBox::sorry(self, i18n("Can not create a Git repository in #{path}.\nThe directory is not empty."))
+          end
         end
       end
 
