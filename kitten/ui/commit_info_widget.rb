@@ -13,7 +13,19 @@ module Kitten
         yield(self) if block_given?
       end
 
+      def clear()
+        @ui.shaLabel.text = ''
+        @ui.authorLabel.text = ''
+        @ui.messageLabel.text = ''
+        @ui.diffTextBrowser.text = ''
+      end
+
       def updateView()
+        unless commit
+          clear
+          return
+        end
+
         @ui.shaLabel.text = commit.sha
         @ui.authorLabel.text = "#{commit.author.name} <#{commit.author.email}> #{commit.authored_date}"
         @ui.messageLabel.text = commit.message
