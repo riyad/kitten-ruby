@@ -71,7 +71,7 @@ module Kitten
 
         # make sure the user has not cancelled the file dialog
         if path
-          # make sure the directors it is a Git repo
+          # make sure the directory is a Git repo
           if Grit::Repo.contains_repository?(path)
             add_repository(path)
           else
