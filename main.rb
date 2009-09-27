@@ -1,4 +1,17 @@
 #!/usr/bin/env ruby
+# Copyright (C) 2009  Riyad Preukschas <riyad@informatik.uni-bremen.de>
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'core_ext/kernel'
 require 'core_ext/module'
@@ -18,7 +31,7 @@ description = "A GUI for Git."
 version     = "0.1"
 about_data   = KDE::AboutData.new("kitten", "", KDE.ki18n("Kitten"),
     version, KDE.ki18n(description),
-    KDE::AboutData::License_GPL, KDE.ki18n("(C) 2009 Riyad Preukschas"))
+    KDE::AboutData::License_GPL_V3, KDE.ki18n("(C) 2009 Riyad Preukschas"))
 
 # TODO: add_author seems not to work
 about_data.addAuthor(KDE.ki18n("Riyad Preukschas"), KDE.ki18n("Author"), "riyad@informatik.uni-bremen.de")
