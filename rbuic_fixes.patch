@@ -1,0 +1,30 @@
+--- a/kitten/ui/ui_clone_repository_dialog.rb	2009-10-25 21:58:50.000000000 +0100
++++ b/kitten/ui/ui_clone_repository_dialog.rb	2009-10-25 22:18:33.022042043 +0100
+@@ -58,7 +58,7 @@
+     @gridLayout.objectName = "gridLayout"
+     @cloneUrlRequester = KDE::UrlRequester.new(@groupBox)
+     @cloneUrlRequester.objectName = "cloneUrlRequester"
+-    @cloneUrlRequester.mode = KDE::File::Directory|KFile::ExistingOnly|KFile::File
++    @cloneUrlRequester.mode = KDE::File::Directory|KDE::File::ExistingOnly|KDE::File::File
+ 
+     @gridLayout.addWidget(@cloneUrlRequester, 0, 0, 1, 1)
+ 
+@@ -83,7 +83,7 @@
+     @gridLayout_2.objectName = "gridLayout_2"
+     @localUrlRequester = KDE::UrlRequester.new(@groupBox_2)
+     @localUrlRequester.objectName = "localUrlRequester"
+-    @localUrlRequester.mode = KDE::File::Directory|KFile::ExistingOnly|KFile::LocalOnly
++    @localUrlRequester.mode = KDE::File::Directory|KDE::File::ExistingOnly|KDE::File::LocalOnly
+ 
+     @gridLayout_2.addWidget(@localUrlRequester, 0, 0, 1, 1)
+ 
+@@ -213,8 +213,7 @@
+ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This can be either a remote or local repository location.</p>\n" \
+ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">You probably have a \"clone URL\" for the repository like:</p>\n" \
+ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:9pt;\">      git://server.tld/</span><span style=\" font-size:9pt;\">repository</span><span style=\" font-size:9pt;\">/of/project.git</span></p>\n" \
+-"<p "
+-        "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:9pt;\">      ssh://server.tld/</span><span style=\" font-size:9pt;\">repository/of/project</span></p></body></html>", nil, Qt::Application::UnicodeUTF8)
++"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:9pt;\">      ssh://server.tld/</span><span style=\" font-size:9pt;\">repository/of/project</span></p></body></html>", nil, Qt::Application::UnicodeUTF8)
+     @groupBox_2.title = Qt::Application.translate("CloneRepositoryDialog", "To", nil, Qt::Application::UnicodeUTF8)
+     @localUrlRequester.text = ''
+     @label_4.text = Qt::Application.translate("CloneRepositoryDialog", "This is the directory into which the above repository will be cloned.\n" \
