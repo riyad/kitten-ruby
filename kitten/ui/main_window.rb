@@ -1,9 +1,11 @@
 
+require File.join(File.dirname(__FILE__), 'compare_widget')
 require File.join(File.dirname(__FILE__), 'history_widget')
 require File.join(File.dirname(__FILE__), 'stage_widget')
 require File.join(File.dirname(__FILE__), 'ui_main_window')
 
 class Ui_MainWindow
+  CompareWidget = Kitten::Ui::CompareWidget
   HistoryWidget = Kitten::Ui::HistoryWidget
   StageWidget = Kitten::Ui::StageWidget
 end
@@ -96,6 +98,7 @@ module Kitten
       def reload()
         @ui.historyWidget.reload
         @ui.stageWidget.reload
+        @ui.compareWidget.reload
       end
 
       attr_accessor :repository
@@ -105,6 +108,7 @@ module Kitten
 
         @ui.historyWidget.repository = repository
         @ui.stageWidget.repository = repository
+        @ui.compareWidget.repository = repository
       end
     end
   end
