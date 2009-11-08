@@ -88,15 +88,23 @@
     </widget>
    </item>
    <item row="2" column="0" colspan="4">
-    <widget class="KTextBrowser" name="contentView"/>
+    <widget class="DiffWidget" name="diffWidget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KTextBrowser</class>
-   <extends>QTextBrowser</extends>
-   <header>ktextbrowser.h</header>
+   <class>DiffWidget</class>
+   <extends>QWidget</extends>
+   <header>diffwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

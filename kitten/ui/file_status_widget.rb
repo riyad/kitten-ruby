@@ -1,7 +1,10 @@
 
+require File.join(File.dirname(__FILE__), 'diff_widget')
 require File.join(File.dirname(__FILE__), 'ui_file_status_widget')
 
-require 'cgi'
+class Ui_FileStatusWidget
+  DiffWidget = Kitten::Ui::DiffWidget
+end
 
 module Kitten
   module Ui
@@ -17,7 +20,7 @@ module Kitten
         @ui.mimeTypeIconLabel.pixmap = empty_pixmap
         @ui.filePathLabel.text = ''
         @ui.fileInfoLabel.text = ''
-        @ui.contentView.html = ''
+        @ui.diffWidget.diff = ''
         @byte_array = nil
       end
 
@@ -88,41 +91,7 @@ module Kitten
         end
       end
 
-      def format(data)
-        data = CGI.escapeHTML(data)
-        data.gsub!(/^((diff|index|new|\+\+\+|---).*\n)/, '')
-        data.gsub!(/^(\+.*)/, '<span class="add">\\1</span>')
-        data.gsub!(/^(-.*)/, '<span class="remove">\\1</span>')
-        data.gsub!(/^(@@.*)/, '<span class="info">\\1</span>')
-        data.gsub!(/^(\\.*)/, '<span class="warning">\\1</span>')
-        data
-      end
-
       def showFileStatus()
-        data = if binary?
-                  'Binary file (content not shown)'
-                else
-                  format(data())
-                end
-        data = <<-END
-<?xml version="1.0" ?>
-<html>
-<head>
-  <style type="text/css">
-    pre {
-      font-family: 'Droid Sans Mono';
-    }
-    .add { color: green; }
-    .info { color: blue; }
-    .remove { color: red; }
-    .warning { color: grey; }
-  </style>
-</head>
-<body>
-<pre>#{data}</pre>
-</body>
-</html>
-        END
         if file_status.changes_staged?
           stage = 'Staged'
           stageIcon = Qt::Icon.new(':/icons/16x16/status/git-file-staged')
@@ -148,7 +117,7 @@ module Kitten
         @ui.mimeTypeIconLabel.pixmap = KDE::Icon.new(mime_type.icon_name).pixmap(32)
         @ui.filePathLabel.text = file_status.path
         @ui.fileInfoLabel.text = file_info
-        @ui.contentView.html = data
+        @ui.diffWidget.diff = binary? ? 'Binary file (content not shown)' : data
       end
     end
   end
