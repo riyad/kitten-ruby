@@ -1,5 +1,10 @@
 
+require File.join(File.dirname(__FILE__), 'diff_widget')
 require File.join(File.dirname(__FILE__), 'ui_commit_info_widget')
+
+class Ui_CommitInfoWidget
+  DiffWidget = Kitten::Ui::DiffWidget
+end
 
 module Kitten
   module Ui
@@ -17,7 +22,7 @@ module Kitten
         @ui.shaLabel.text = ''
         @ui.authorLabel.text = ''
         @ui.messageLabel.text = ''
-        @ui.diffTextBrowser.text = ''
+        @ui.diffWidget.diff = ''
       end
 
       def updateView()
@@ -29,11 +34,11 @@ module Kitten
         @ui.shaLabel.text = commit.sha
         @ui.authorLabel.text = "#{commit.author.name} <#{commit.author.email}> #{commit.authored_date}"
         @ui.messageLabel.text = commit.message
-        @ui.diffTextBrowser.text = unless commit.diffs.empty?
-                                      commit.diffs.map(&:diff).join("\n")
-                                    else
-                                      ''
-                                  end
+        @ui.diffWidget.diff = unless commit.diffs.empty?
+                                commit.diffs.map(&:diff).join("\n")
+                              else
+                                ''
+                              end
       end
 
       attr_accessor :commit
