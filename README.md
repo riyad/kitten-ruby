@@ -47,6 +47,6 @@ You can start Kitten by issuing the following commands on the command line.
 
 You can find the main repository at:
 
-http://gitorious.org/kitten
+https://github.com/riyad/kitten-ruby
 
 If have come a across any bug or have suggestions please feel free to mail the authors.
